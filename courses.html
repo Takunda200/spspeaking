@@ -1,75 +1,171 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Our Curriculum - School of Public Speaking</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Our Courses | School of Public Speaking</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
     <nav>
-        <div class="logo">S.P.S.</div>
-        <a href="index.html">Home</a>
-        <a href="about.html">About</a>
-        <a href="courses.html">Courses</a>
-        <a href="gallery.html">Gallery</a>
-        <a href="contact.html">Contact</a>
+        <div class="logo">
+            <a href="index.html">
+                <img src="logo.png" alt="SPS Logo" class="nav-logo-img">
+            </a>
+        </div>
+        
+        <div class="menu-toggle" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <div class="nav-links" id="navLinks">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="courses.html" style="color: #ffcccc;">Courses</a> <a href="articles.html">Articles</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="contact.html">Contact</a>
+            <a href="https://digital-podium-84e90.web.app/" class="btn-portal">Student Portal</a>
+        </div>
     </nav>
 
-    <div class="page-header" id="course-header-bg">
+    <header class="hero-section" style="height: 60vh;">
         <div class="overlay"></div>
         <div class="hero-content">
-            <h1>Expert Training Programs</h1>
-            <p>Elevate your communication, grooming, and professional presence.</p>
+            <h1>Our Curriculum</h1>
+            <p style="color: white;">Expert training programs designed for every level of experience.</p>
         </div>
-    </div>
+        <div id="course-header-bg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; z-index: -1;"></div>
+    </header>
 
-    <div class="section">
-        <div class="grid-container">
-            
-            <div class="card">
-                <div class="card-icon">👑</div>
-                <h3>The Mastery Class</h3>
-                <p><strong>For Senior Leaders & Executives.</strong></p>
-                <p>This exclusive program is designed for those who need to command the room. We cover advanced rhetoric, persuasion techniques, and high-stakes crisis communication. You won't just speak; you will influence.</p>
-                <br>
-                <a href="contact.html" class="btn">Apply Now</a>
+    <section class="section">
+        <div class="container">
+            <div class="grid-3">
+                
+                <div class="card">
+                    <img src="https://Takunda2000.pythonanywhere.com/static/images/courses/mastery.jpg" 
+                         alt="Mastery Class" class="card-image"
+                         onerror="this.src='https://via.placeholder.com/400x200?text=Mastery+Class'">
+                    
+                    <div class="card-content">
+                        <h3>The Mastery Class</h3>
+                        <p><strong>For Senior Leaders & Executives.</strong></p>
+                        <p>This exclusive program is designed for those who need to command the room. We cover advanced rhetoric, persuasion techniques, and high-stakes crisis communication.</p>
+                        
+                        <a href="https://wa.me/263788382193?text=I'm%20interested%20in%20the%20selected%20course:%20Mastery%20Class" 
+                           target="_blank" class="btn" style="margin-top: 10px; background-color: #25D366; border: none;">
+                           <span style="font-size:1.1rem; vertical-align:middle;"></span> Apply Now
+                        </a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <img src="https://Takunda2000.pythonanywhere.com/static/images/courses/curriculum.jpg" 
+                         alt="Curriculum" class="card-image"
+                         onerror="this.src='https://via.placeholder.com/400x200?text=Curriculum'">
+                    
+                    <div class="card-content">
+                        <h3>Master Class Curriculum</h3>
+                        <p><strong>Comprehensive Public Speaking.</strong></p>
+                        <p>Our core syllabus covers the A-to-Z of speaking. From overcoming stage fright and structuring your speech to mastering body language and vocal variety.</p>
+                        
+                        <a href="https://wa.me/263788382193?text=I'm%20interested%20in%20the%20selected%20course:%20Master%20Class%20Curriculum" 
+                           target="_blank" class="btn" style="margin-top: 10px; background-color: #25D366; border: none;">
+                           <span style="font-size:1.1rem; vertical-align:middle;"></span> Apply Now
+                        </a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <img src="https://Takunda2000.pythonanywhere.com/static/images/courses/ielts.jpg" 
+                         alt="IELTS" class="card-image"
+                         onerror="this.src='https://via.placeholder.com/400x200?text=IELTS+Training'">
+                    
+                    <div class="card-content">
+                        <h3>IELTS Training</h3>
+                        <p><strong>English Proficiency Preparation.</strong></p>
+                        <p>Preparing to study or work abroad? We provide intensive coaching for the IELTS Speaking and Listening modules to boost your band score significantly.</p>
+                        
+                        <a href="https://wa.me/263788382193?text=I'm%20interested%20in%20the%20selected%20course:%20IELTS" 
+                           target="_blank" class="btn" style="margin-top: 10px; background-color: #25D366; border: none;">
+                           <span style="font-size:1.1rem; vertical-align:middle;"></span> Apply Now
+                        </a>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <img src="https://Takunda2000.pythonanywhere.com/static/images/courses/grooming.jpg" 
+                         alt="Grooming" class="card-image"
+                         onerror="this.src='https://via.placeholder.com/400x200?text=Grooming+and+Etiquette'">
+                
+                    <div class="card-content">
+                        <h3>Grooming & Etiquette</h3>
+                        <p><strong>Personal Branding & Protocols.</strong></p>
+                        <p>Success isn't just about what you say; it's about how you present yourself. Learn dining etiquette, professional dressing, and business protocols.</p>
+                        
+                        <a href="https://wa.me/263788382193?text=I'm%20interested%20in%20the%20selected%20course:%20Grooming" 
+                           target="_blank" class="btn" style="margin-top: 10px; background-color: #25D366; border: none;">
+                           <span style="font-size:1.1rem; vertical-align:middle;"></span> Apply Now
+                        </a>
+                    </div>
+                </div>
+
             </div>
-
-            <div class="card">
-                <div class="card-icon">📚</div>
-                <h3>Master Class Curriculum</h3>
-                <p><strong>Comprehensive Public Speaking.</strong></p>
-                <p>Our core syllabus covers the A-to-Z of speaking. From overcoming stage fright and structuring your speech to mastering body language and vocal variety. Perfect for beginners to intermediate speakers.</p>
-                <br>
-                <a href="contact.html" class="btn">View Syllabus</a>
-            </div>
-
-            <div class="card">
-                <div class="card-icon">🌍</div>
-                <h3>IELTS Training</h3>
-                <p><strong>English Proficiency Preparation.</strong></p>
-                <p>Preparing to study or work abroad? We provide intensive coaching for the IELTS Speaking and Listening modules. Learn the exact criteria examiners use and boost your band score significantly.</p>
-                <br>
-                <a href="contact.html" class="btn">Start Prep</a>
-            </div>
-
-            <div class="card">
-                <div class="card-icon">👔</div>
-                <h3>Grooming & Etiquette</h3>
-                <p><strong>Personal Branding & Protocols.</strong></p>
-                <p>Success isn't just about what you say; it's about how you present yourself. Learn dining etiquette, professional dressing, business protocols, and social graces that set you apart in high society.</p>
-                <br>
-                <a href="contact.html" class="btn">Join Class</a>
-            </div>
-
         </div>
-    </div>
-    
-    <footer>© 2026 School of Public Speaking</footer>
+    </section>
+
+    <footer>
+        <div class="footer-container">
+            <div class="footer-col">
+                <img src="static/images/logos/logo.png" alt="SPS Logo" class="footer-logo-img" style="height: 60px; margin-bottom: 15px;">
+                <p><strong>The School of Public Speaking</strong></p>
+                <p>226 Sherwood Drv,<br>Harare, Zimbabwe</p>
+                <br>
+                <p><strong>Main Office:</strong><br>+263 77 871 6405</p>
+                <p><strong>Hours:</strong><br>8:00 a.m. – 4:00 p.m.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Menu</h4>
+                <div class="footer-links">
+                    <a href="index.html">Home</a>
+                    <a href="about.html">About</a>
+                    <a href="courses.html">Courses</a>
+                    <a href="gallery.html">Media & Gallery</a>
+                    <a href="https://digital-podium-84e90.web.app/" class="btn-portal" style="display:inline-block; margin-top:5px; background:none; padding:0; color:#aaa!important;">Student Portal</a>
+                    <a href="contact.html">Contact</a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Latest Updates</h4>
+                <p><em>"Communication is the solvent of all problems."</em></p>
+                <br>
+                <a href="articles.html" style="color: #800000; text-decoration: none;">&rarr; Read our Blog</a>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>Copyright © 2026 School of Public Speaking | Powered by Takunda.</p>
+        </div>
+    </footer>
 
     <script>
         const API_URL = "https://Takunda2000.pythonanywhere.com"; 
 
-        // ROTATE BACKGROUND FOR HEADER
+        // 1. Custom URL Trick
+        window.onload = function() {
+            if(window.location.hash !== "#Courses") {
+                history.replaceState(null, null, "#Courses");
+            }
+        };
+
+        // 2. Mobile Menu
+        function toggleMenu() {
+            const nav = document.getElementById('navLinks');
+            nav.classList.toggle('active');
+        }
+
+        // 3. Rotate Header Background (From Courses Folder)
         async function rotateCourseHeader() {
             try {
                 const response = await fetch(`${API_URL}/api/courses`);
@@ -77,17 +173,13 @@
                 
                 if(images.length > 0) {
                     const header = document.getElementById('course-header-bg');
-                    header.style.position = 'relative';
-                    header.style.overflow = 'hidden';
-                    
                     let index = 0;
-                    // Set initial
-                    header.style.background = `url('${API_URL}${images[0]}') center/cover no-repeat`;
+                    header.style.backgroundImage = `url('${API_URL}${images[0]}')`;
 
                     if(images.length > 1) {
                         setInterval(() => {
                             index = (index + 1) % images.length;
-                            header.style.background = `url('${API_URL}${images[index]}') center/cover no-repeat`;
+                            header.style.backgroundImage = `url('${API_URL}${images[index]}')`;
                         }, 5000);
                     }
                 }
