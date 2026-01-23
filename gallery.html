@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Gallery</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav>
+        <div class="logo">S.P.S.</div>
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="courses.html">Courses</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="contact.html">Contact</a>
+    </nav>
+
+    <div class="page-header">
+        <h1>Moments & Memories</h1>
+    </div>
+
+    <div class="section">
+        <div class="gallery-grid" id="gallery-container"></div>
+    </div>
+
+    <script>
+        const API_URL = "https://Takunda2000.pythonanywhere.com"; 
+
+        async function loadGallery() {
+            const container = document.getElementById('gallery-container');
+            container.innerHTML = "<p>Loading photos...</p>"; // Loading text
+
+            try {
+                const response = await fetch(`${API_URL}/api/gallery`);
+                const images = await response.json();
+                
+                container.innerHTML = ""; // Clear loading text
+
+                if(images.length === 0) {
+                    container.innerHTML = "<p>No photos uploaded yet.</p>";
+                    return;
+                }
+
+                images.forEach(imgUrl => {
+                    const img = document.createElement('img');
+                    img.src = `${API_URL}${imgUrl}`;
+                    img.classList.add('gallery-img');
+                    container.appendChild(img);
+                });
+
+            } catch (error) {
+                container.innerHTML = "<p>Could not load gallery. Check connection.</p>";
+            }
+        }
+        loadGallery();
+    </script>
+    
+    <footer>© 2026 School of Public Speaking</footer>
+</body>
+</html>

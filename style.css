@@ -1,0 +1,545 @@
+/* style.css */
+@import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@700&family=Roboto:wght@300;400;700&display=swap');
+
+/* =========================================
+   1. RESET, GLOBAL FONTS & DEFAULTS
+   ========================================= */
+body, html { 
+    margin: 0; 
+    padding: 0; 
+    font-family: 'Roboto', sans-serif; 
+    color: #222; /* Changed from #333 to #222 for better contrast */
+    overflow-x: hidden; 
+}
+* { box-sizing: border-box; }
+
+/* Typography */
+h1, h2, h3 { 
+    font-family: 'Playfair Display', serif; 
+    color: #003366; 
+}
+h1 { 
+    font-size: 3.5rem; 
+    margin-bottom: 20px; 
+    line-height: 1.2; 
+}
+h2 { 
+    font-size: 2.8rem; 
+    text-align: center; 
+    margin-bottom: 40px; /* Reduced from 50px to 40px */
+    position: relative; 
+}
+h2::after { 
+    content: ''; 
+    display: block; 
+    width: 60px; 
+    height: 3px; 
+    background: #800000; 
+    margin: 15px auto 0; 
+}
+
+/* VISIBILITY FIX: Darker text color for better readability */
+p { 
+    font-size: 1.1rem; 
+    line-height: 1.6; 
+    color: #333; /* Changed from #555 to #333 for better visibility */
+    margin-bottom: 15px; 
+}
+
+/* =========================================
+   2. NAVIGATION BAR
+   ========================================= */
+nav { 
+    background: rgba(0, 51, 102, 0.98); 
+    padding: 15px 5%; 
+    position: fixed; 
+    top: 0; 
+    width: 100%; 
+    z-index: 1000; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.3);
+}
+
+/* Logo */
+nav .logo {
+    display: flex;
+    align-items: center; 
+}
+.nav-logo-img { 
+    height: 60px; /* Reduced from 50px to 45px */
+    width: auto; 
+    transition: transform 0.3s ease;
+}
+.nav-logo-img:hover { transform: scale(1.1); }
+
+/* Desktop Links */
+.nav-links { 
+    display: flex; 
+    align-items: center; 
+}
+.nav-links a { 
+    color: white; 
+    text-decoration: none; 
+    margin-left: 25px; 
+    font-weight: 500; 
+    font-size: 1rem; 
+    transition: 0.3s; 
+}
+.nav-links a:hover { color: #ffcccc; }
+
+.btn-portal { 
+    background: #800000; 
+    padding: 10px 20px; 
+    border-radius: 30px; 
+    color: white !important;
+}
+.btn-portal:hover { background: #a00000; }
+
+/* Mobile Menu Button (Hidden on Desktop) */
+.menu-toggle { 
+    display: none; 
+    cursor: pointer; 
+    flex-direction: column; 
+    gap: 5px; 
+}
+.menu-toggle span { 
+    width: 30px; 
+    height: 3px; 
+    background-color: white; 
+    border-radius: 2px; 
+}
+
+/* =========================================
+   3. HERO SECTION (HOME PAGE)
+   ========================================= */
+.hero-section { 
+    height: 90vh; 
+    position: relative; 
+    display: flex; 
+    align-items: center; 
+    justify-content: center; 
+    text-align: center; 
+    color: white; 
+    overflow: hidden; 
+    background: #000; 
+}
+.bg-layer { 
+    position: absolute; 
+    top: 0; left: 0; 
+    width: 100%; height: 100%; 
+    background-size: cover; 
+    background-position: center; 
+    opacity: 0; 
+    transition: opacity 2s ease-in-out; 
+}
+.overlay { 
+    position: absolute; 
+    top: 0; left: 0; 
+    width: 100%; height: 100%; 
+    background: linear-gradient(to bottom, rgba(0,51,102,0.6), rgba(0,0,0,0.7)); /* Updated gradient */
+}
+.hero-content { 
+    z-index: 2; 
+    position: relative; 
+    max-width: 800px; 
+    padding: 20px; 
+    animation: fadeInUp 1s ease; 
+}
+.hero-content h1 { 
+    color: white; 
+    text-shadow: 0 2px 4px rgba(0,0,0,0.5); 
+}
+.btn-hero { 
+    background: #800000; 
+    color: white; 
+    padding: 15px 35px; /* Adjusted from 40px to 35px */
+    text-decoration: none; 
+    font-size: 1.1rem; /* Adjusted from 1.2rem */
+    border-radius: 5px; 
+    transition: 0.3s; 
+    display: inline-block; 
+    margin-top: 20px; 
+}
+.btn-hero:hover { 
+    background: #a00000; 
+    transform: translateY(-3px); 
+}
+
+/* =========================================
+   4. PAGE HEADERS (For About, Courses, Articles)
+   ========================================= */
+.page-header { 
+    background: #003366; 
+    color: white; 
+    padding: 120px 20px 60px 20px;
+    text-align: center; 
+}
+.page-header h1 { 
+    color: white; 
+    margin-bottom: 10px; 
+}
+.page-header p { 
+    color: #ccc; 
+}
+
+/* =========================================
+   5. DR BLESSING SECTION
+   ========================================= */
+.split-section { 
+    display: flex; 
+    flex-wrap: wrap; 
+    min-height: 600px; 
+    background: #fff; 
+}
+.split-image { 
+    flex: 1; 
+    min-width: 300px; 
+    position: relative; 
+    min-height: 400px; 
+    overflow: hidden; 
+    background: #eee; /* Changed from #ddd to #eee */
+}
+.dr-bg-layer {
+    position: absolute;
+    top: 0; left: 0; 
+    width: 100%; height: 100%;
+    background-size: cover;
+    background-position: top center;
+    opacity: 0;
+    transition: opacity 1.5s ease;
+}
+.split-text { 
+    flex: 1; 
+    min-width: 300px; 
+    padding: 60px; 
+    background: #f9f9f9; 
+    display: flex; 
+    flex-direction: column; 
+    justify-content: center; 
+}
+.signature { 
+    font-family: 'Playfair Display', serif; 
+    font-style: italic; 
+    color: #800000; 
+    font-size: 1.5rem; 
+    margin-top: 20px; 
+}
+
+/* =========================================
+   6. SECTIONS & GRIDS
+   ========================================= */
+.section { 
+    padding: 80px 5%; /* Default Desktop Padding */
+}
+.bg-light { 
+    background-color: #f4f4f4; 
+}
+.container { 
+    max-width: 1200px; 
+    margin: 0 auto; 
+}
+
+.grid-3 { 
+    display: grid; 
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+    gap: 30px; 
+}
+
+/* Feature Cards (Why Choose Us) */
+.feature-card { 
+    background: white; 
+    padding: 40px; 
+    border-radius: 8px; 
+    box-shadow: 0 10px 30px rgba(0,0,0,0.05); 
+    text-align: center; 
+    transition: 0.3s; 
+    border-top: 5px solid #003366; 
+}
+.feature-card:hover { 
+    transform: translateY(-10px); 
+    box-shadow: 0 15px 40px rgba(0,0,0,0.1); 
+}
+.icon { 
+    font-size: 3rem; 
+    margin-bottom: 20px; 
+    display: block; 
+}
+
+/* Course/General Cards */
+.card {
+    background: white;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+    text-align: left;
+}
+.card-icon { 
+    font-size: 3rem; 
+    color: #800000; 
+    margin-bottom: 15px; 
+}
+.card h3 { 
+    margin-top: 0; 
+    color: #003366; 
+}
+.btn { 
+    background-color: #800000; 
+    color: white; 
+    padding: 10px 20px; 
+    text-decoration: none; 
+    border-radius: 5px; 
+    display: inline-block; 
+    transition: 0.3s;
+}
+.btn:hover { 
+    background-color: #a00000; 
+}
+
+/* =========================================
+   7. BLOG / ARTICLES SECTION
+   ========================================= */
+.blog-card {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+    transition: transform 0.3s ease;
+    text-align: left;
+    display: flex;
+    flex-direction: column;
+}
+.blog-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+.blog-img-box {
+    height: 200px;
+    background-color: #ddd;
+    background-size: cover;
+    background-position: center;
+}
+.blog-content {
+    padding: 20px; /* Reduced from 25px to 20px */
+    flex-grow: 1;
+}
+.blog-date {
+    font-size: 0.85rem;
+    color: #888;
+    margin-bottom: 10px;
+    display: block;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+.blog-title {
+    font-size: 1.4rem;
+    color: #003366;
+    margin: 0 0 10px 0;
+    font-family: 'Playfair Display', serif;
+}
+.blog-excerpt {
+    font-size: 1rem;
+    color: #666;
+    margin-bottom: 20px;
+}
+.read-more-link {
+    color: #800000;
+    font-weight: bold;
+    text-decoration: none;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+}
+.read-more-link:hover { 
+    text-decoration: underline; 
+}
+
+/* =========================================
+   8. STATS, TESTIMONIALS & FOOTER
+   ========================================= */
+.stats-bar { 
+    background: #003366; 
+    color: white; 
+    padding: 60px 0; 
+    text-align: center; 
+}
+.stat-item h3 { 
+    color: #fff; 
+    font-size: 3rem; 
+    margin: 0; 
+}
+
+/* --- FOOTER STYLES --- */
+footer {
+    background-color: rgba(0, 51, 102, 0.98);
+    color: #aaa;
+    padding: 60px 20px 20px 20px;
+    font-size: 0.9rem;
+}
+
+.footer-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); /* Creates columns automatically */
+    gap: 40px;
+    text-align: left; /* Aligns text to the left for better reading */
+    border-bottom: 1px solid #333;
+    padding-bottom: 40px;
+}
+
+.footer-col h4 {
+    color: white;
+    font-family: 'Playfair Display', serif;
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    border-left: 3px solid #800000; /* Red accent line */
+    padding-left: 10px;
+}
+
+.footer-col p {
+    color: #aaa;
+    margin-bottom: 10px;
+    font-size: 0.95rem;
+}
+
+.footer-links a {
+    display: block; /* Makes links sit on their own lines */
+    color: #aaa;
+    text-decoration: none;
+    margin-bottom: 8px;
+    transition: 0.3s;
+}
+
+.footer-links a:hover {
+    color: white;
+    padding-left: 5px; /* Slight movement on hover */
+}
+
+.copyright {
+    text-align: center;
+    padding-top: 20px;
+    font-size: 0.8rem;
+    color: #666;
+}
+/* New Testimonial Avatar Style */
+.testimonial-avatar {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 4px solid white;
+    margin: 0 auto 20px auto;
+    background-size: cover;
+    background-position: center;
+    background-color: #ccc;
+}
+
+footer { 
+    background: #09006e; 
+    color: #888; 
+    padding: 50px 20px; /* Reduced from 60px to 50px */
+    text-align: center; 
+}
+.footer-logo-img { 
+    height: 70px; /* Reduced from 80px to 70px */
+    width: auto; 
+    opacity: 0.8; 
+    margin-bottom: 20px; 
+}
+footer a { 
+    color: #fff; 
+    text-decoration: none; 
+}
+
+/* =========================================
+   9. ANIMATIONS
+   ========================================= */
+@keyframes fadeInUp { 
+    from { 
+        opacity: 0; 
+        transform: translateY(30px); 
+    } 
+    to { 
+        opacity: 1; 
+        transform: translateY(0); 
+    } 
+}
+
+/* =========================================
+   10. MOBILE RESPONSIVE DESIGN
+   ========================================= */
+@media (max-width: 768px) {
+    
+    /* 1. Mobile Navigation */
+    .menu-toggle { 
+        display: flex; 
+    }
+    
+    .nav-links {
+        display: none;
+        flex-direction: column;
+        position: absolute;
+        top: 70px; 
+        left: 0; 
+        width: 100%;
+        background: #003366;
+        padding: 20px 0;
+        text-align: center;
+    }
+    .nav-links.active { 
+        display: flex; 
+    }
+    .nav-links a { 
+        margin: 15px 0; 
+        font-size: 1.2rem; 
+        display: block; 
+    }
+    .btn-portal { 
+        display: inline-block; 
+        margin-top: 10px; 
+    }
+
+    /* 2. Text Sizes */
+    h1 { 
+        font-size: 2.2rem; 
+    }
+    h2 { 
+        font-size: 2rem; 
+        margin-bottom: 25px; /* Reduced from 50px to 25px for mobile */
+    }
+    
+    /* 3. Tighter Spacing for Mobile */
+    .section { 
+        padding: 40px 20px; /* Reduced from 50px to 40px for mobile */
+    }
+    .grid-3 { 
+        gap: 20px; /* Reduced from 30px to 20px for mobile */
+    }
+
+    /* 4. Layout Stacking */
+    .hero-section { 
+        height: 80vh; 
+    }
+    .split-section { 
+        flex-direction: column; 
+    }
+    .split-image { 
+        height: 350px; /* Reduced from 400px to 350px */
+        width: 100%; 
+    }
+    .split-text { 
+        padding: 30px 20px; /* Reduced from 40px to 30px */
+    }
+
+    /* 5. Stats Bar */
+    .stats-bar .grid-3 { 
+        grid-template-columns: 1fr; 
+        gap: 40px; 
+    }
+    
+    /* 6. Hero Button */
+    .btn-hero {
+        padding: 12px 30px;
+        font-size: 1rem;
+    }
+}

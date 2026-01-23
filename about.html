@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us | School of Public Speaking</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <nav>
+        <div class="logo">
+            <a href="index.html">
+                <img src="logo.png" alt="SPS Logo" class="nav-logo-img">
+            </a>
+        </div>
+        
+        <div class="menu-toggle" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <div class="nav-links" id="navLinks">
+            <a href="index.html">Home</a>
+            <a href="about.html" style="color: #ffcccc;">About</a> <a href="courses.html">Courses</a>
+            <a href="articles.html">Articles</a>
+            <a href="gallery.html">Gallery</a>
+            <a href="contact.html">Contact</a>
+            <a href="https://digital-podium-84e90.web.app/" class="btn-portal">Student Portal</a>
+        </div>
+    </nav>
+
+    <header class="hero-section" style="height: 60vh;"> <div class="overlay"></div>
+        <div class="hero-content">
+            <h1>Our Story</h1>
+            <p style="color: white;">Building confidence, one voice at a time.</p>
+        </div>
+        <div id="page-bg-layer" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; z-index: -1;"></div>
+    </header>
+
+    <section class="section">
+        <div class="container">
+            <div class="grid-3">
+                <div class="feature-card">
+                    <span class="icon">🚀</span>
+                    <h3>Our Mission</h3>
+                    <p>To empower individuals to overcome the fear of public speaking and communicate their ideas with clarity and conviction.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="icon">👁️</span>
+                    <h3>Our Vision</h3>
+                    <p>To be Africa's leading institution for communication excellence, producing leaders who inspire change through speech.</p>
+                </div>
+                <div class="feature-card">
+                    <span class="icon">💎</span>
+                    <h3>Our Values</h3>
+                    <p>Integrity, Excellence, Confidence, and Continuous Growth. We believe every voice matters.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="split-section" style="background: #f9f9f9;">
+        <div class="split-text">
+            <h2>The Man Behind The Method</h2>
+            <h3 style="color: #800000; margin-top: -30px;">Dr. Blessing Mandipira</h3>
+            
+            <p>
+                Dr. Blessing Mandipira is not just a teacher; he is a practitioner. With a background in competitive debating and corporate training, he noticed a gap in the education system: we are taught <em>what</em> to think, but rarely <em>how</em> to speak.
+            </p>
+            <p>
+                He founded the School of Public Speaking to bridge this gap. His unique "Psychology-First" approach tackles the root cause of stage fright before teaching the mechanics of speech.
+            </p>
+            <p>
+                <strong>"When you change the way you speak, you change the way the world treats you."</strong>
+            </p>
+        </div>
+        <div class="split-image" id="dr-about-frame">
+            </div>
+    </section>
+
+    <footer>
+        <div class="footer-container">
+            
+            <div class="footer-col">
+                <img src="logo.png" alt="SPS Logo" class="footer-logo-img" style="height: 60px; margin-bottom: 15px;">
+                <p><strong>The School of Public Speaking</strong></p>
+                <p>226 Sherwood Drv,<br>Harare, Zimbabwe</p>
+                <br>
+                <p><strong>Main Office:</strong><br>+263 77 871 6405</p>
+                <p><strong>Hours:</strong><br>8:00 a.m. – 4:00 p.m.</p>
+            </div>
+
+            <div class="footer-col">
+                <h4>Quick Menu</h4>
+                <div class="footer-links">
+                    <a href="index.html">Home</a>
+                    <a href="about.html">About</a>
+                    <a href="courses.html">Courses</a>
+                    <a href="gallery.html">Media & Gallery</a>
+                    <a href="digital-podium-84e90.web.app" class="btn-portal" style="display:inline-block; margin-top:5px; background:none; padding:0; color:#aaa!important;">Student Portal</a>
+                    <a href="contact.html">Contact</a>
+                </div>
+            </div>
+
+            <div class="footer-col">
+                <h4>Latest Updates</h4>
+                <p><em>"Communication is the solvent of all problems and is the foundation for personal development."</em></p>
+                <br>
+                <a href="articles.html" style="color: #800000; text-decoration: none;">&rarr; Read our Blog</a>
+            </div>
+
+        </div>
+
+        <div class="copyright">
+            <p>Copyright © 2026 School of Public Speaking | Powered by Takunda.</p>
+        </div>
+    </footer>
+
+    <script>
+        const API_URL = "https://Takunda2000.pythonanywhere.com"; 
+
+        // 1. Mobile Menu Toggle
+        function toggleMenu() {
+            const nav = document.getElementById('navLinks');
+            nav.classList.toggle('active');
+        }
+
+        // 2. Load One Random Background for Header
+        async function loadHeaderBg() {
+            try {
+                const response = await fetch(`${API_URL}/api/backgrounds`);
+                const images = await response.json();
+                if (images.length > 0) {
+                    const randomImg = images[Math.floor(Math.random() * images.length)];
+                    document.getElementById('page-bg-layer').style.backgroundImage = `url('${API_URL}${randomImg}')`;
+                }
+            } catch (e) { console.log("Bg Error"); }
+        }
+
+        // 3. Load Dr Blessing Image
+        async function loadDrImage() {
+            try {
+                const response = await fetch(`${API_URL}/api/dr_blessing`);
+                const images = await response.json();
+                const container = document.getElementById('dr-about-frame');
+                if (images.length > 0) {
+                    // Just take the first image for the About page
+                    container.style.background = `url('${API_URL}${images[0]}') center/cover no-repeat`;
+                }
+            } catch (e) { console.log("Dr Error"); }
+        }
+
+        loadHeaderBg();
+        loadDrImage();
+    </script>
+</body>
+</html>

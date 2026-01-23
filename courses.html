@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Our Curriculum - School of Public Speaking</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <nav>
+        <div class="logo">S.P.S.</div>
+        <a href="index.html">Home</a>
+        <a href="about.html">About</a>
+        <a href="courses.html">Courses</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="contact.html">Contact</a>
+    </nav>
+
+    <div class="page-header" id="course-header-bg">
+        <div class="overlay"></div>
+        <div class="hero-content">
+            <h1>Expert Training Programs</h1>
+            <p>Elevate your communication, grooming, and professional presence.</p>
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="grid-container">
+            
+            <div class="card">
+                <div class="card-icon">👑</div>
+                <h3>The Mastery Class</h3>
+                <p><strong>For Senior Leaders & Executives.</strong></p>
+                <p>This exclusive program is designed for those who need to command the room. We cover advanced rhetoric, persuasion techniques, and high-stakes crisis communication. You won't just speak; you will influence.</p>
+                <br>
+                <a href="contact.html" class="btn">Apply Now</a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">📚</div>
+                <h3>Master Class Curriculum</h3>
+                <p><strong>Comprehensive Public Speaking.</strong></p>
+                <p>Our core syllabus covers the A-to-Z of speaking. From overcoming stage fright and structuring your speech to mastering body language and vocal variety. Perfect for beginners to intermediate speakers.</p>
+                <br>
+                <a href="contact.html" class="btn">View Syllabus</a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">🌍</div>
+                <h3>IELTS Training</h3>
+                <p><strong>English Proficiency Preparation.</strong></p>
+                <p>Preparing to study or work abroad? We provide intensive coaching for the IELTS Speaking and Listening modules. Learn the exact criteria examiners use and boost your band score significantly.</p>
+                <br>
+                <a href="contact.html" class="btn">Start Prep</a>
+            </div>
+
+            <div class="card">
+                <div class="card-icon">👔</div>
+                <h3>Grooming & Etiquette</h3>
+                <p><strong>Personal Branding & Protocols.</strong></p>
+                <p>Success isn't just about what you say; it's about how you present yourself. Learn dining etiquette, professional dressing, business protocols, and social graces that set you apart in high society.</p>
+                <br>
+                <a href="contact.html" class="btn">Join Class</a>
+            </div>
+
+        </div>
+    </div>
+    
+    <footer>© 2026 School of Public Speaking</footer>
+
+    <script>
+        const API_URL = "https://Takunda2000.pythonanywhere.com"; 
+
+        // ROTATE BACKGROUND FOR HEADER
+        async function rotateCourseHeader() {
+            try {
+                const response = await fetch(`${API_URL}/api/courses`);
+                const images = await response.json();
+                
+                if(images.length > 0) {
+                    const header = document.getElementById('course-header-bg');
+                    header.style.position = 'relative';
+                    header.style.overflow = 'hidden';
+                    
+                    let index = 0;
+                    // Set initial
+                    header.style.background = `url('${API_URL}${images[0]}') center/cover no-repeat`;
+
+                    if(images.length > 1) {
+                        setInterval(() => {
+                            index = (index + 1) % images.length;
+                            header.style.background = `url('${API_URL}${images[index]}') center/cover no-repeat`;
+                        }, 5000);
+                    }
+                }
+            } catch (e) { console.log("No course images found"); }
+        }
+        rotateCourseHeader();
+    </script>
+</body>
+</html>
