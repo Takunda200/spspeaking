@@ -1,59 +1,179 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-    <title>Gallery</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gallery | School of Public Speaking</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
+
     <nav>
-        <div class="logo">S.P.S.</div>
-        <a href="index.html">Home</a>
-        <a href="about.html">About</a>
-        <a href="courses.html">Courses</a>
-        <a href="gallery.html">Gallery</a>
-        <a href="contact.html">Contact</a>
+        <div class="logo">
+            <a href="index.html">
+                <img src="logo.png" alt="SPS Logo" class="nav-logo-img">
+            </a>
+        </div>
+        
+        <div class="menu-toggle" onclick="toggleMenu()">
+            <span></span>
+            <span></span>
+            <span></span>
+        </div>
+
+        <div class="nav-links" id="navLinks">
+            <a href="index.html">Home</a>
+            <a href="about.html">About</a>
+            <a href="courses.html">Courses</a>
+            <a href="articles.html">Articles</a>
+            <a href="gallery.html" style="color: #ffcccc;">Gallery</a> <a href="contact.html">Contact</a>
+            <a href="https://digital-podium-84e90.web.app/" class="btn-portal">Student Portal</a>
+        </div>
     </nav>
 
-    <div class="page-header">
-        <h1>Moments & Memories</h1>
+    <header class="hero-section" style="height: 50vh;">
+        <div class="overlay"></div>
+        <div class="hero-content">
+            <h1>Moments & Memories</h1>
+            <p style="color: white;">Graduations, Events, and Seminars.</p>
+        </div>
+        <div id="page-bg-layer" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; z-index: -1;"></div>
+    </header>
+
+    <section class="section">
+        <div class="container">
+            <h2 style="margin-bottom: 10px;">Our Photo Album</h2>
+            <p style="text-align: center; margin-bottom: 40px;">Click any image to view it in full size.</p>
+            
+            <div id="gallery-container" class="gallery-grid">
+                <p style="text-align: center; width: 100%; color: #888;">Loading gallery...</p>
+            </div>
+        </div>
+    </section>
+
+    <div id="lightbox" class="lightbox" onclick="closeLightbox()">
+        <span class="close-btn">&times;</span>
+        <img class="lightbox-content" id="lightbox-img">
     </div>
 
-    <div class="section">
-        <div class="gallery-grid" id="gallery-container"></div>
-    </div>
+    <footer>
+        <div class="footer-container">
+            <div class="footer-col">
+                <img src="logo.png" alt="SPS Logo" class="footer-logo-img" style="height: 60px; margin-bottom: 15px;">
+                <p><strong>The School of Public Speaking</strong></p>
+                <p>226 Sherwood Drv,<br>Harare, Zimbabwe</p>
+                <br>
+                <p><strong>Main Office:</strong><br>+263 77 871 6405</p>
+                <p><strong>Hours:</strong><br>8:00 a.m. – 4:00 p.m.</p>
+            </div>
+            <div class="footer-col">
+                <h4>Quick Menu</h4>
+                <div class="footer-links">
+                    <a href="index.html">Home</a>
+                    <a href="about.html">About</a>
+                    <a href="courses.html">Courses</a>
+                    <a href="gallery.html">Media & Gallery</a>
+                    <a href="https://digital-podium-84e90.web.app/" class="btn-portal" style="display:inline-block; margin-top:5px; background:none; padding:0; color:#aaa!important;">Student Portal</a>
+                    <a href="contact.html">Contact</a>
+                </div>
+            </div>
+            <div class="footer-col">
+                <h4>Latest Updates</h4>
+                <p><em>"Communication is the solvent of all problems."</em></p>
+                <br>
+                <a href="articles.html" style="color: #800000; text-decoration: none;">&rarr; Read our Blog</a>
+            </div>
+        </div>
+        <div class="copyright">
+            <p>Copyright © 2026 School of Public Speaking | Powered by Takunda.</p>
+        </div>
+    </footer>
 
     <script>
         const API_URL = "https://Takunda2000.pythonanywhere.com"; 
 
+        // 1. URL Hash Trick
+        window.onload = function() {
+            if(window.location.hash !== "#Gallery") {
+                history.replaceState(null, null, "#Gallery");
+            }
+        };
+
+        // 2. Mobile Menu
+        function toggleMenu() {
+            const nav = document.getElementById('navLinks');
+            nav.classList.toggle('active');
+        }
+
+        // 3. Header Background
+        async function loadHeaderBg() {
+            try {
+                const response = await fetch(`${API_URL}/api/backgrounds`);
+                const images = await response.json();
+                if (images.length > 0) {
+                    const randomImg = images[Math.floor(Math.random() * images.length)];
+                    document.getElementById('page-bg-layer').style.backgroundImage = `url('${API_URL}${randomImg}')`;
+                }
+            } catch (e) { console.log("Bg Error"); }
+        }
+
+        // 4. LOAD GALLERY IMAGES
         async function loadGallery() {
             const container = document.getElementById('gallery-container');
-            container.innerHTML = "<p>Loading photos...</p>"; // Loading text
-
+            
             try {
                 const response = await fetch(`${API_URL}/api/gallery`);
                 const images = await response.json();
                 
-                container.innerHTML = ""; // Clear loading text
+                // Clear loading text
+                container.innerHTML = ""; 
 
-                if(images.length === 0) {
-                    container.innerHTML = "<p>No photos uploaded yet.</p>";
+                if (images.length === 0) {
+                    container.innerHTML = "<p style='text-align:center; width:100%;'>No photos uploaded yet.</p>";
                     return;
                 }
 
+                // Create Image Cards
                 images.forEach(imgUrl => {
-                    const img = document.createElement('img');
-                    img.src = `${API_URL}${imgUrl}`;
-                    img.classList.add('gallery-img');
-                    container.appendChild(img);
+                    const fullUrl = `${API_URL}${imgUrl}`;
+                    
+                    const card = document.createElement('div');
+                    card.className = 'gallery-item';
+                    
+                    // Allow clicking to open lightbox
+                    card.onclick = function() { openLightbox(fullUrl); };
+
+                    card.innerHTML = `
+                        <img src="${fullUrl}" alt="Gallery Image" loading="lazy">
+                        <div class="gallery-overlay">
+                            <span>🔍</span>
+                        </div>
+                    `;
+                    container.appendChild(card);
                 });
 
             } catch (error) {
-                container.innerHTML = "<p>Could not load gallery. Check connection.</p>";
+                console.error(error);
+                container.innerHTML = "<p style='text-align:center; color:red;'>Could not load gallery. Please check connection.</p>";
             }
         }
+
+        // 5. LIGHTBOX LOGIC
+        function openLightbox(imgSrc) {
+            const lightbox = document.getElementById('lightbox');
+            const lightboxImg = document.getElementById('lightbox-img');
+            
+            lightbox.style.display = "flex"; // Show it
+            lightboxImg.src = imgSrc; // Set the image
+        }
+
+        function closeLightbox() {
+            document.getElementById('lightbox').style.display = "none";
+        }
+
+        // Run functions
+        loadHeaderBg();
         loadGallery();
     </script>
-    
-    <footer>© 2026 School of Public Speaking</footer>
 </body>
 </html>
