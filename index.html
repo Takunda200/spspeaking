@@ -242,7 +242,12 @@
             const nav = document.getElementById('navLinks');
             nav.classList.toggle('active');
         }
-
+        window.onload = function() {
+            if(window.location.hash !== "#Home") {
+                // This changes the URL text without reloading the page
+                history.replaceState(null, null, "#Home");
+            }
+        };
         startHeroRotator();
         startDrRotator();
     </script>
