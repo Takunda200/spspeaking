@@ -298,7 +298,109 @@ nav .logo {
 }
 
 /* =========================================
-   7. BLOG / ARTICLES SECTION
+   7. CONTACT PAGE STYLES
+   ========================================= */
+/* The Layout Wrapper */
+.contact-wrapper {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 50px;
+    align-items: start;
+}
+
+/* Contact Info Box */
+.contact-info-box {
+    background: #003366;
+    color: white;
+    padding: 40px;
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+}
+.contact-info-box h3 { 
+    color: white; 
+    margin-top: 0; 
+}
+.contact-info-box p { 
+    color: #ddd; 
+    margin-bottom: 25px; 
+}
+.contact-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+}
+.contact-icon {
+    font-size: 1.5rem;
+    margin-right: 15px;
+    color: #ffcccc; /* Soft pink/red accent */
+}
+
+/* Modern Form Inputs */
+.form-group { 
+    margin-bottom: 20px; 
+}
+.form-group label { 
+    display: block; 
+    margin-bottom: 8px; 
+    font-weight: bold; 
+    color: #333; 
+}
+
+.modern-input {
+    width: 100%;
+    padding: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    background: #f9f9f9;
+    font-family: inherit;
+    font-size: 1rem;
+    transition: 0.3s;
+}
+
+.modern-input:focus {
+    outline: none;
+    border-color: #800000;
+    background: white;
+    box-shadow: 0 0 5px rgba(128, 0, 0, 0.2);
+}
+
+/* Map Container */
+.map-container {
+    width: 100%;
+    height: 300px;
+    border-radius: 8px;
+    overflow: hidden;
+    margin-top: 30px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+}
+
+/* Floating WhatsApp Button */
+.float-wa {
+    position: fixed;
+    width: 60px;
+    height: 60px;
+    bottom: 40px;
+    right: 40px;
+    background-color: #25d366;
+    color: #FFF;
+    border-radius: 50px;
+    text-align: center;
+    font-size: 30px;
+    box-shadow: 2px 2px 3px #999;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-decoration: none;
+    transition: 0.3s;
+}
+.float-wa:hover { 
+    transform: scale(1.1); 
+    background-color: #128C7E; 
+}
+
+/* =========================================
+   8. BLOG / ARTICLES SECTION
    ========================================= */
 .blog-card {
     background: white;
@@ -355,7 +457,7 @@ nav .logo {
 }
 
 /* =========================================
-   8. GALLERY SECTION STYLES
+   9. GALLERY SECTION STYLES
    ========================================= */
 /* The Grid Layout */
 .gallery-grid {
@@ -410,7 +512,7 @@ nav .logo {
 }
 
 /* =========================================
-   9. LIGHTBOX (THE POPUP)
+   10. LIGHTBOX (THE POPUP)
    ========================================= */
 .lightbox {
     display: none; /* Hidden by default */
@@ -451,7 +553,7 @@ nav .logo {
 }
 
 /* =========================================
-   10. STATS, TESTIMONIALS & FOOTER
+   11. STATS, TESTIMONIALS & FOOTER
    ========================================= */
 .stats-bar { 
     background: #003366; 
@@ -543,7 +645,7 @@ footer a {
 }
 
 /* =========================================
-   11. ANIMATIONS
+   12. ANIMATIONS
    ========================================= */
 @keyframes fadeInUp { 
     from { 
@@ -557,7 +659,7 @@ footer a {
 }
 
 /* =========================================
-   12. MOBILE RESPONSIVE DESIGN
+   13. MOBILE RESPONSIVE DESIGN
    ========================================= */
 @media (max-width: 768px) {
     
@@ -622,7 +724,41 @@ footer a {
         padding: 30px 20px; /* Reduced from 40px to 30px */
     }
 
-    /* 5. Gallery Mobile Optimization */
+    /* 5. Contact Page Mobile Optimizations */
+    .contact-wrapper {
+        grid-template-columns: 1fr;
+        gap: 30px;
+    }
+    
+    .contact-info-box {
+        padding: 30px 20px;
+    }
+    
+    .contact-item {
+        flex-direction: column;
+        text-align: center;
+        margin-bottom: 25px;
+    }
+    
+    .contact-icon {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+    
+    .map-container {
+        height: 250px;
+        margin-top: 20px;
+    }
+    
+    .float-wa {
+        width: 50px;
+        height: 50px;
+        bottom: 20px;
+        right: 20px;
+        font-size: 24px;
+    }
+
+    /* 6. Gallery Mobile Optimization */
     .gallery-grid {
         grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
         gap: 10px;
@@ -632,7 +768,7 @@ footer a {
         height: 180px; /* Reduced height for mobile */
     }
 
-    /* 6. Lightbox Mobile Adjustments */
+    /* 7. Lightbox Mobile Adjustments */
     .lightbox-content {
         max-width: 95%;
         max-height: 70vh;
@@ -644,7 +780,7 @@ footer a {
         font-size: 30px;
     }
 
-    /* 7. Footer Mobile Optimization */
+    /* 8. Footer Mobile Optimization */
     .footer-container {
         grid-template-columns: 1fr;
         gap: 30px;
@@ -658,13 +794,13 @@ footer a {
         padding-bottom: 10px;
     }
 
-    /* 8. Stats Bar */
+    /* 9. Stats Bar */
     .stats-bar .grid-3 { 
         grid-template-columns: 1fr; 
         gap: 40px; 
     }
     
-    /* 9. Hero Button */
+    /* 10. Hero Button */
     .btn-hero {
         padding: 12px 30px;
         font-size: 1rem;
