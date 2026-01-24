@@ -11,7 +11,7 @@
     <nav>
         <div class="logo">
             <a href="index.html">
-                <img src="logo.png" alt="SPS Logo" class="nav-logo-img">
+                <img src="static/images/logos/logo.png" alt="SPS Logo" class="nav-logo-img">
             </a>
         </div>
         
@@ -24,20 +24,20 @@
         <div class="nav-links" id="navLinks">
             <a href="index.html">Home</a>
             <a href="about.html">About</a>
-            <a href="courses.html" style="color: #ffcccc;">Courses</a> <a href="articles.html">Articles</a>
+            <a href="courses.html" style="color: #ffcccc;">Courses</a>
+            <a href="articles.html">Articles</a>
             <a href="gallery.html">Gallery</a>
             <a href="contact.html">Contact</a>
             <a href="https://digital-podium-84e90.web.app/" class="btn-portal">Student Portal</a>
         </div>
     </nav>
 
-    <header class="hero-section" style="height: 60vh;">
+    <header class="hero-section" id="hero" style="height: 60vh;">
         <div class="overlay"></div>
         <div class="hero-content">
             <h1>Our Curriculum</h1>
             <p style="color: white;">Expert training programs designed for every level of experience.</p>
         </div>
-        <div id="course-header-bg" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-size: cover; background-position: center; z-index: -1;"></div>
     </header>
 
     <section class="section">
@@ -54,7 +54,7 @@
                         <p><strong>For Senior Leaders & Executives.</strong></p>
                         <p>This exclusive program is designed for those who need to command the room. We cover advanced rhetoric, persuasion techniques, and high-stakes crisis communication.</p>
                         
-                        <a href="https://wa.me/263788382193?text=I'm%20interested%20in%20the%20course" 
+                        <a href="https://wa.me/263788382193?text=I'm%20interested%20in%20the%20selected%20course:%20Mastery%20Class" 
                            target="_blank" class="btn" style="margin-top: 10px; background-color: #25D366; border: none;">
                            <span style="font-size:1.1rem; vertical-align:middle;"></span> Apply Now
                         </a>
@@ -69,9 +69,9 @@
                     <div class="card-content">
                         <h3>Master Class Curriculum</h3>
                         <p><strong>Comprehensive Public Speaking.</strong></p>
-                        <p>Our core syllabus covers the A-to-Z of speaking. From overcoming stage fright and structuring your speech to mastering body language and vocal variety.</p>
+                        <p>Our core syllabus covers the A-to-Z of speaking. From overcoming stage fright to vocal variety.</p>
                         
-                        <a href="https://wa.me/263788382193?text=I'm%20interested%20in%20the%20course" 
+                        <a href="https://wa.me/263788382193?text=I'm%20interested%20in%20the%20selected%20course:%20Master%20Class%20Curriculum" 
                            target="_blank" class="btn" style="margin-top: 10px; background-color: #25D366; border: none;">
                            <span style="font-size:1.1rem; vertical-align:middle;"></span> Apply Now
                         </a>
@@ -86,9 +86,9 @@
                     <div class="card-content">
                         <h3>IELTS Training</h3>
                         <p><strong>English Proficiency Preparation.</strong></p>
-                        <p>Preparing to study or work abroad? We provide intensive coaching for the IELTS Speaking and Listening modules to boost your band score significantly.</p>
+                        <p>We provide intensive coaching for the IELTS Speaking and Listening modules to boost your band score significantly.</p>
                         
-                        <a href="https://wa.me/263788382193?text=I'm%20interested%20in%20the%20course" 
+                        <a href="https://wa.me/263788382193?text=I'm%20interested%20in%20the%20selected%20course:%20IELTS" 
                            target="_blank" class="btn" style="margin-top: 10px; background-color: #25D366; border: none;">
                            <span style="font-size:1.1rem; vertical-align:middle;"></span> Apply Now
                         </a>
@@ -99,13 +99,13 @@
                     <img src="https://Takunda2000.pythonanywhere.com/static/images/courses/grooming.jpg" 
                          alt="Grooming" class="card-image"
                          onerror="this.src='https://via.placeholder.com/400x200?text=Grooming+and+Etiquette'">
-                
+                    
                     <div class="card-content">
                         <h3>Grooming & Etiquette</h3>
                         <p><strong>Personal Branding & Protocols.</strong></p>
-                        <p>Success isn't just about what you say; it's about how you present yourself. Learn dining etiquette, professional dressing, and business protocols.</p>
+                        <p>Success isn't just about what you say; it's about how you present yourself. Learn dining etiquette and professional dressing.</p>
                         
-                        <a href="https://wa.me/263788382193?text=I'm%20interested%20in%20the%20course" 
+                        <a href="https://wa.me/263788382193?text=I'm%20interested%20in%20the%20selected%20course:%20Grooming" 
                            target="_blank" class="btn" style="margin-top: 10px; background-color: #25D366; border: none;">
                            <span style="font-size:1.1rem; vertical-align:middle;"></span> Apply Now
                         </a>
@@ -152,7 +152,7 @@
     <script>
         const API_URL = "https://Takunda2000.pythonanywhere.com"; 
 
-        // 1. Custom URL Trick
+        // 1. URL Hash Trick
         window.onload = function() {
             if(window.location.hash !== "#Courses") {
                 history.replaceState(null, null, "#Courses");
@@ -165,27 +165,36 @@
             nav.classList.toggle('active');
         }
 
-        // 3. Rotate Header Background (From Courses Folder)
-        async function rotateCourseHeader() {
+        // 3. Header Background Rotator
+        async function startHeroRotator() {
             try {
-                const response = await fetch(`${API_URL}/api/courses`);
+                const response = await fetch(`${API_URL}/api/backgrounds`);
                 const images = await response.json();
+                const hero = document.getElementById('hero');
                 
-                if(images.length > 0) {
-                    const header = document.getElementById('course-header-bg');
-                    let index = 0;
-                    header.style.backgroundImage = `url('${API_URL}${images[0]}')`;
+                if (images.length === 0) return;
 
-                    if(images.length > 1) {
-                        setInterval(() => {
-                            index = (index + 1) % images.length;
-                            header.style.backgroundImage = `url('${API_URL}${images[index]}')`;
-                        }, 5000);
-                    }
+                let currentIndex = 0;
+                images.forEach((imgUrl, index) => {
+                    const div = document.createElement('div');
+                    div.classList.add('bg-layer'); 
+                    div.style.backgroundImage = `url('${API_URL}${imgUrl}')`;
+                    if (index === 0) div.style.opacity = 1;
+                    hero.insertBefore(div, hero.firstChild);
+                });
+
+                if (images.length > 1) {
+                    setInterval(() => {
+                        const layers = hero.querySelectorAll('.bg-layer');
+                        layers[currentIndex].style.opacity = 0;
+                        currentIndex = (currentIndex + 1) % layers.length;
+                        layers[currentIndex].style.opacity = 1;
+                    }, 5000);
                 }
-            } catch (e) { console.log("No course images found"); }
+            } catch (err) { console.log("Bg Error", err); }
         }
-        rotateCourseHeader();
+
+        startHeroRotator();
     </script>
 </body>
 </html>
