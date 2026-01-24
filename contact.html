@@ -165,10 +165,46 @@
         }
 
         // 4. Fake Form Send Function
-        function sendMessage(e) {
+        // 4. REAL FORM SEND FUNCTION
+        async function sendMessage(e) {
             e.preventDefault(); // Stop page from reloading
-            alert("Thank you! Your message has been sent to our team.");
-            e.target.reset(); // Clear the form
+            
+            // 1. Get values from the inputs
+            const name = document.querySelector('input[placeholder="John Doe"]').value;
+            const email = document.querySelector('input[type="email"]').value;
+            const phone = document.querySelector('input[type="tel"]').value;
+            const message = document.querySelector('textarea').value;
+            const btn = document.querySelector('button[type="submit"]');
+
+            // 2. Change button text to show it's working
+            const originalText = btn.innerText;
+            btn.innerText = "Sending...";
+            btn.disabled = true;
+
+            try {
+                // 3. Send data to PythonAnywhere
+                const response = await fetch(`${API_URL}/api/contact`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ name, email, phone, message })
+                });
+
+                if (response.ok) {
+                    alert("Success! Your message has been sent to Tanaka.");
+                    e.target.reset(); // Clear form
+                } else {
+                    alert("Something went wrong. Please try WhatsApp.");
+                }
+            } catch (error) {
+                console.log(error);
+                alert("Connection error. Please check your internet.");
+            }
+
+            // 4. Reset button
+            btn.innerText = originalText;
+            btn.disabled = false;
         }
 
         loadHeaderBg();
