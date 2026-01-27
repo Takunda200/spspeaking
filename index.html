@@ -26,7 +26,7 @@
     <nav>
         <div class="logo">
             <a href="index.html">
-                <img src="logo.png" alt="SPS Logo" class="nav-logo-img">
+                <img src="static/images/logos/logo.png" alt="SPS Logo" class="nav-logo-img" onerror="this.src='logo.png'">
             </a>
         </div>
         
@@ -137,6 +137,11 @@
             <h2>Latest Insights & News</h2>
             <p>Read our latest articles on public speaking, grooming, and leadership.</p>
             <br>
+            
+            <div id="latest-news-grid" class="grid-3" style="text-align: left; margin-bottom: 40px;">
+                <p style="width:100%; text-align:center; color:#888;">Loading latest news...</p>
+            </div>
+
             <a href="articles.html" class="btn-hero" style="background: transparent; border: 2px solid #800000; color: #800000;">Visit The Blog Library</a>
         </div>
     </section>
@@ -145,7 +150,7 @@
         <div class="footer-container">
             
             <div class="footer-col">
-                <img src="logo.png" alt="SPS Logo" class="footer-logo-img" style="height: 60px; margin-bottom: 15px;">
+                <img src="static/images/logos/logo.png" alt="SPS Logo" class="footer-logo-img" style="height: 60px; margin-bottom: 15px;">
                 <p><strong>The School of Public Speaking</strong></p>
                 <p>226 Sherwood Drv,<br>Harare, Zimbabwe</p>
                 <br>
@@ -160,7 +165,7 @@
                     <a href="about.html">About</a>
                     <a href="courses.html">Courses</a>
                     <a href="gallery.html">Media & Gallery</a>
-                    <a href="digital-podium-84e90.web.app" class="btn-portal" style="display:inline-block; margin-top:5px; background:none; padding:0; color:#aaa!important;">Student Portal</a>
+                    <a href="https://digital-podium-84e90.web.app/" class="btn-portal" style="display:inline-block; margin-top:5px; background:none; padding:0; color:#aaa!important;">Student Portal</a>
                     <a href="contact.html">Contact</a>
                 </div>
             </div>
@@ -194,7 +199,6 @@
 
                 // --- Part A: Set Testimonial Image (Picks a random one from the list) ---
                 if (testimonialAvatar) {
-                    // Pick random image
                     const randomImage = images[Math.floor(Math.random() * images.length)];
                     testimonialAvatar.style.backgroundImage = `url('${API_URL}${randomImage}')`;
                 }
@@ -252,13 +256,62 @@
             } catch (err) { console.log("Dr Error", err); }
         }
 
-        // 3. MENU TOGGLE (Moved outside to be a global function)
+        // 3. LOAD LATEST NEWS (NEW FUNCTION)
+        async function loadLatestNews() {
+            const container = document.getElementById('latest-news-grid');
+            try {
+                // Fetch articles from backend
+                const response = await fetch(`${API_URL}/api/news`); 
+                const articles = await response.json();
+
+                container.innerHTML = ""; // Clear loading text
+
+                // Show only the latest 3
+                const latestArticles = articles.slice(0, 3); 
+
+                if (latestArticles.length === 0) {
+                    container.innerHTML = "<p style='width:100%; text-align:center;'>No news updates yet.</p>";
+                    return;
+                }
+
+                latestArticles.forEach(article => {
+                    const card = document.createElement('div');
+                    card.className = 'feature-card'; // Reuse existing card style
+                    card.style.textAlign = 'left';
+                    card.style.padding = '0'; // Remove default padding for cleaner look
+                    card.style.overflow = 'hidden';
+
+                    // Use a default image if none provided
+                    const imgUrl = article.image ? `${API_URL}${article.image}` : 'static/images/courses/mastery.jpg';
+
+                    card.innerHTML = `
+                        <div style="height: 180px; background-image: url('${imgUrl}'); background-size: cover; background-position: center;"></div>
+                        <div style="padding: 20px;">
+                            <span style="font-size: 0.8rem; color: #800000; font-weight: bold;">${article.date || 'RECENT'}</span>
+                            <h3 style="margin-top: 5px; font-size: 1.2rem;">${article.title}</h3>
+                            <p style="font-size: 0.9rem; color: #666;">${article.excerpt || 'Click to read more...'}</p>
+                            <a href="articles.html" style="color: #003366; font-weight: bold; text-decoration: none; display: block; margin-top: 10px;">Read More &rarr;</a>
+                        </div>
+                    `;
+                    container.appendChild(card);
+                });
+
+            } catch (error) {
+                console.log("News Error", error);
+                container.innerHTML = "<p style='width:100%; text-align:center; color:red;'>Could not load news.</p>";
+            }
+        }
+
+        // 4. MENU TOGGLE
         function toggleMenu() {
             const nav = document.getElementById('navLinks');
             nav.classList.toggle('active');
         }
+
+        // RUN ALL
         startHeroRotator();
         startDrRotator();
+        loadLatestNews(); 
     </script>
 </body>
 </html>
