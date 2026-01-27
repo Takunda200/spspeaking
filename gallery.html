@@ -11,7 +11,7 @@
     <nav>
         <div class="logo">
             <a href="index.html">
-                <img src="logo.png" alt="SPS Logo" class="nav-logo-img">
+                <img src="static/images/logos/logo.png" alt="SPS Logo" class="nav-logo-img" onerror="this.src='logo.png'">
             </a>
         </div>
         
@@ -26,16 +26,19 @@
             <a href="about.html">About</a>
             <a href="courses.html">Courses</a>
             <a href="articles.html">Articles</a>
-            <a href="gallery.html" style="color: #ffcccc;">Gallery</a> <a href="contact.html">Contact</a>
-            <a href="https://takunda200.github.io/Student-Portal/" class="btn-portal">Student Portal</a>
+            <a href="gallery.html" style="color: #ffcccc;">Gallery</a>
+            <a href="contact.html">Contact</a>
+            <a href="https://digital-podium-84e90.web.app/" class="btn-portal">Student Portal</a>
         </div>
     </nav>
 
-   <header class="hero-section" id="hero" style="height: 50vh;"> <div class="overlay"></div>
-    <div class="hero-content">
-        <h1>Moments & Memories</h1> <p style="color: white;">Graduations, Events and Seminars</p>
-    </div>
-</header>
+    <header class="hero-section" id="hero" style="height: 50vh;">
+        <div class="overlay"></div>
+        <div class="hero-content">
+            <h1>Moments & Memories</h1>
+            <p style="color: white;">Graduations, Events and Seminars</p>
+        </div>
+    </header>
 
     <section class="section">
         <div class="container">
@@ -56,7 +59,7 @@
     <footer>
         <div class="footer-container">
             <div class="footer-col">
-                <img src="logo.png" alt="SPS Logo" class="footer-logo-img" style="height: 60px; margin-bottom: 15px;">
+                <img src="static/images/logos/logo.png" alt="SPS Logo" class="footer-logo-img" style="height: 60px; margin-bottom: 15px;">
                 <p><strong>The School of Public Speaking</strong></p>
                 <p>226 Sherwood Drv,<br>Harare, Zimbabwe</p>
                 <br>
@@ -89,7 +92,7 @@
     <script>
         const API_URL = "https://Takunda2000.pythonanywhere.com"; 
 
-        // 1. URL Hash Trick
+        // 1. URL Hash Trick (Forces clean reload)
         window.onload = function() {
             if(window.location.hash !== "#Gallery") {
                 history.replaceState(null, null, "#Gallery");
@@ -102,8 +105,7 @@
             nav.classList.toggle('active');
         }
 
-        // 3. Header Background
-        // Header Background Rotator
+        // 3. Header Background Rotator
         async function startHeroRotator() {
             try {
                 const response = await fetch(`${API_URL}/api/backgrounds`);
@@ -113,7 +115,6 @@
                 if (images.length === 0) return;
 
                 let currentIndex = 0;
-
                 images.forEach((imgUrl, index) => {
                     const div = document.createElement('div');
                     div.classList.add('bg-layer'); 
@@ -133,14 +134,18 @@
             } catch (err) { console.log("Bg Error", err); }
         }
 
-        startHeroRotator(); // Don't forget to run it!
-
-        // 4. LOAD GALLERY IMAGES
+        // 4. LOAD GALLERY IMAGES (The Critical Function)
         async function loadGallery() {
             const container = document.getElementById('gallery-container');
             
             try {
+                console.log("Fetching gallery..."); // Debug message
                 const response = await fetch(`${API_URL}/api/gallery`);
+                
+                if (!response.ok) {
+                    throw new Error(`Server Error: ${response.status}`);
+                }
+
                 const images = await response.json();
                 
                 // Clear loading text
@@ -162,7 +167,7 @@
                     card.onclick = function() { openLightbox(fullUrl); };
 
                     card.innerHTML = `
-                        <img src="${fullUrl}" alt="Gallery Image" loading="lazy">
+                        <img src="${fullUrl}" alt="Gallery Image" loading="lazy" style="width:100%; display:block;">
                         <div class="gallery-overlay">
                             <span>🔍</span>
                         </div>
@@ -171,8 +176,8 @@
                 });
 
             } catch (error) {
-                console.error(error);
-                container.innerHTML = "<p style='text-align:center; color:red;'>Could not load gallery. Please check connection.</p>";
+                console.error("Gallery Error:", error);
+                container.innerHTML = `<p style='text-align:center; color:red;'>Could not load gallery.<br><small>${error.message}</small></p>`;
             }
         }
 
@@ -181,16 +186,18 @@
             const lightbox = document.getElementById('lightbox');
             const lightboxImg = document.getElementById('lightbox-img');
             
-            lightbox.style.display = "flex"; // Show it
-            lightboxImg.src = imgSrc; // Set the image
+            lightbox.style.display = "flex"; 
+            lightboxImg.src = imgSrc; 
         }
 
         function closeLightbox() {
             document.getElementById('lightbox').style.display = "none";
         }
 
-        // Run functions
-        loadGallery();
+        // --- RUN EVERYTHING ---
+        // Notice: We deleted 'loadHeaderBg()' because it didn't exist!
+        startHeroRotator(); 
+        loadGallery(); 
     </script>
 </body>
 </html>
