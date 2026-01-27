@@ -5,13 +5,53 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>News & Insights | School of Public Speaking</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Simple Modal Styles for Reading Articles */
+        .modal {
+            display: none; 
+            position: fixed; 
+            z-index: 1000; 
+            left: 0;
+            top: 0;
+            width: 100%; 
+            height: 100%; 
+            overflow: auto; 
+            background-color: rgba(0,0,0,0.8); 
+            padding-top: 60px;
+        }
+        .modal-content {
+            background-color: #fefefe;
+            margin: 5% auto; 
+            padding: 20px;
+            border: 1px solid #888;
+            width: 80%; 
+            max-width: 800px;
+            border-radius: 10px;
+            position: relative;
+        }
+        .close-modal {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close-modal:hover { color: black; }
+        .article-full-img {
+            width: 100%;
+            max-height: 400px;
+            object-fit: cover;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+    </style>
 </head>
 <body>
 
     <nav>
         <div class="logo">
             <a href="index.html">
-                <img src="logo.png" alt="SPS Logo" class="nav-logo-img">
+                <img src="static/images/logos/logo.png" alt="SPS Logo" class="nav-logo-img" onerror="this.src='logo.png'">
             </a>
         </div>
         
@@ -28,7 +68,7 @@
             <a href="articles.html" style="color: #ffcccc;">Articles</a>
             <a href="gallery.html">Gallery</a>
             <a href="contact.html">Contact</a>
-            <a href="https://takunda200.github.io/Student-Portal/" class="btn-portal">Student Portal</a>
+            <a href="https://digital-podium-84e90.web.app/" class="btn-portal">Student Portal</a>
         </div>
     </nav>
 
@@ -42,46 +82,26 @@
 
     <section class="section">
         <div class="container">
-            <div class="grid-3">
-                
-                <div class="blog-card">
-                    <div class="blog-img-box" style="background-image: url('https://Takunda2000.pythonanywhere.com/static/images/courses/class.jpg');"></div>
-                    <div class="blog-content">
-                        <span class="blog-date">OCT 12, 2025</span>
-                        <h3 class="blog-title">3 Ways to Overcome Stage Fright</h3>
-                        <p class="blog-excerpt">Do your palms sweat before you speak? Discover Dr. Blessing's three-step technique to turn nervous energy into power.</p>
-                        <a href="#" class="read-more-link">Read Full Article &rarr;</a>
-                    </div>
-                </div>
-
-                <div class="blog-card">
-                    <div class="blog-img-box" style="background-image: url('https://Takunda2000.pythonanywhere.com/static/images/courses/podium.jpg');"></div>
-                    <div class="blog-content">
-                        <span class="blog-date">NOV 05, 2025</span>
-                        <h3 class="blog-title">The Art of Impromptu Speaking</h3>
-                        <p class="blog-excerpt">Thinking on your feet is a skill. Learn how to structure your thoughts in seconds when called upon unexpectedly.</p>
-                        <a href="#" class="read-more-link">Read Full Article &rarr;</a>
-                    </div>
-                </div>
-
-                <div class="blog-card">
-                    <div class="blog-img-box" style="background-image: url('https://Takunda2000.pythonanywhere.com/static/images/courses/grooming.jpg');"></div>
-                    <div class="blog-content">
-                        <span class="blog-date">DEC 01, 2025</span>
-                        <h3 class="blog-title">Why "Grooming" Matters</h3>
-                        <p class="blog-excerpt">Your appearance speaks before you even open your mouth. A look at our Grooming & Etiquette masterclass.</p>
-                        <a href="#" class="read-more-link">Read Full Article &rarr;</a>
-                    </div>
-                </div>
-
+            <div id="articles-grid" class="grid-3">
+                <p style="text-align:center; width:100%; color:#666;">Loading latest insights...</p>
             </div>
         </div>
     </section>
 
+    <div id="articleModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal()">&times;</span>
+            <h2 id="modalTitle" style="color: #003366;"></h2>
+            <p id="modalDate" style="color: #888; font-size: 0.9rem; margin-bottom: 15px;"></p>
+            <img id="modalImg" src="" class="article-full-img" style="display:none;">
+            <div id="modalBody" style="line-height: 1.8; color: #333; white-space: pre-wrap;"></div>
+        </div>
+    </div>
+
     <footer>
         <div class="footer-container">
             <div class="footer-col">
-                <img src="logo.png" alt="SPS Logo" class="footer-logo-img" style="height: 60px; margin-bottom: 15px;">
+                <img src="static/images/logos/logo.png" alt="SPS Logo" class="footer-logo-img" style="height: 60px; margin-bottom: 15px;">
                 <p><strong>The School of Public Speaking</strong></p>
                 <p>226 Sherwood Drv,<br>Harare, Zimbabwe</p>
                 <br>
@@ -114,20 +134,13 @@
     <script>
         const API_URL = "https://Takunda2000.pythonanywhere.com"; 
 
-        // 1. URL Hash Trick
-        window.onload = function() {
-            if(window.location.hash !== "#Articles") {
-                history.replaceState(null, null, "#Articles");
-            }
-        };
-
-        // 2. Mobile Menu
+        // 1. Mobile Menu
         function toggleMenu() {
             const nav = document.getElementById('navLinks');
             nav.classList.toggle('active');
         }
 
-        // 3. Header Background Rotator
+        // 2. Header Background Rotator
         async function startHeroRotator() {
             try {
                 const response = await fetch(`${API_URL}/api/backgrounds`);
@@ -156,7 +169,83 @@
             } catch (err) { console.log("Bg Error", err); }
         }
 
+        // 3. LOAD ARTICLES (The News Engine)
+        async function loadArticles() {
+            const container = document.getElementById('articles-grid');
+            
+            try {
+                const response = await fetch(`${API_URL}/api/news`);
+                const articles = await response.json();
+                
+                container.innerHTML = ""; // Clear loading text
+
+                if (articles.length === 0) {
+                    container.innerHTML = "<p style='grid-column: 1/-1; text-align:center;'>No articles published yet.</p>";
+                    return;
+                }
+
+                articles.forEach((article, index) => {
+                    // Use fallback image if none provided
+                    const imgUrl = article.image ? `${API_URL}${article.image}` : 'static/images/courses/mastery.jpg';
+
+                    const card = document.createElement('div');
+                    card.className = 'blog-card';
+                    card.innerHTML = `
+                        <div class="blog-img-box" style="background-image: url('${imgUrl}');"></div>
+                        <div class="blog-content">
+                            <span class="blog-date">${article.date}</span>
+                            <h3 class="blog-title">${article.title}</h3>
+                            <p class="blog-excerpt">${article.excerpt}</p>
+                            <button onclick="openArticle(${index})" class="read-more-link" style="background:none; border:none; color:#800000; cursor:pointer; font-weight:bold; padding:0;">Read Full Article &rarr;</button>
+                        </div>
+                    `;
+                    container.appendChild(card);
+                });
+
+                // Save articles globally so modal can access them
+                window.allArticles = articles;
+
+            } catch (error) {
+                console.error(error);
+                container.innerHTML = "<p style='color:red;'>Failed to load articles.</p>";
+            }
+        }
+
+        // 4. MODAL LOGIC (Read Article)
+        function openArticle(index) {
+            const article = window.allArticles[index];
+            const modal = document.getElementById('articleModal');
+            
+            document.getElementById('modalTitle').innerText = article.title;
+            document.getElementById('modalDate').innerText = article.date;
+            document.getElementById('modalBody').innerText = article.body;
+            
+            const img = document.getElementById('modalImg');
+            if (article.image) {
+                img.src = `${API_URL}${article.image}`;
+                img.style.display = 'block';
+            } else {
+                img.style.display = 'none';
+            }
+
+            modal.style.display = "block";
+        }
+
+        function closeModal() {
+            document.getElementById('articleModal').style.display = "none";
+        }
+
+        // Close modal if user clicks outside content
+        window.onclick = function(event) {
+            const modal = document.getElementById('articleModal');
+            if (event.target == modal) {
+                modal.style.display = "none";
+            }
+        }
+
+        // Run Functions
         startHeroRotator();
+        loadArticles();
     </script>
 </body>
 </html>
