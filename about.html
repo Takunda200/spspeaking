@@ -5,6 +5,44 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Us | School of Public Speaking</title>
     <link rel="stylesheet" href="style.css">
+    <style>
+        /* Special CSS for the Team Grid just for this page */
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            margin-top: 30px;
+        }
+        .team-card {
+            background: white;
+            padding: 15px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            text-align: center;
+            transition: transform 0.3s ease;
+        }
+        .team-card:hover {
+            transform: translateY(-5px);
+        }
+        .team-card img {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            object-fit: cover;
+            margin-bottom: 15px;
+            border: 3px solid #800000;
+        }
+        .team-card h3 {
+            color: #003366;
+            margin-bottom: 5px;
+            font-size: 1.2rem;
+        }
+        .team-card p {
+            color: #666;
+            font-size: 0.9rem;
+            font-weight: bold;
+        }
+    </style>
 </head>
 <body>
 
@@ -77,8 +115,69 @@
                 <strong>"When you change the way you speak, you change the way the world treats you."</strong>
             </p>
         </div>
-        <div class="split-image" id="dr-about-frame">
+        
+        <div class="split-image" id="dr-about-frame" style="background: none; display: flex; align-items: center; justify-content: center;">
+            <img src="static/images/dr-blessing.jpg" alt="Dr Blessing Mandipira" 
+                 style="width: 100%; height: 100%; object-fit: cover; border-radius: 10px;"
+                 onerror="this.src='https://via.placeholder.com/600x600?text=Photo+Coming+Soon'">
+        </div>
+    </section>
+
+    <section class="section">
+        <div class="container">
+            <h2 style="text-align: center; color: #003366;">Meet Our Team</h2>
+            <p style="text-align: center; margin-bottom: 40px;">The experts dedicated to finding your voice.</p>
+            
+            <div class="team-grid">
+                <div class="team-card">
+                    <img src="static/images/team/tanaka.jpg" alt="Tanaka" onerror="this.src='https://via.placeholder.com/150?text=Tanaka'">
+                    <h3>Tanaka</h3>
+                    <p>Sales Executive</p>
+                </div>
+
+                <div class="team-card">
+                    <img src="static/images/team/nobert.jpg" alt="Nobert" onerror="this.src='https://via.placeholder.com/150?text=Nobert'">
+                    <h3>Nobert</h3>
+                    <p>Coach</p>
+                </div>
+
+                <div class="team-card">
+                    <img src="static/images/team/donnel.jpg" alt="Donnel" onerror="this.src='https://via.placeholder.com/150?text=Donnel'">
+                    <h3>Donnel</h3>
+                    <p>Coach</p>
+                </div>
+
+                <div class="team-card">
+                    <img src="static/images/team/ryan.jpg" alt="Ryan" onerror="this.src='https://via.placeholder.com/150?text=Ryan'">
+                    <h3>Ryan</h3>
+                    <p>Coach</p>
+                </div>
+
+                <div class="team-card">
+                    <img src="static/images/team/cecil.jpg" alt="Cecil" onerror="this.src='https://via.placeholder.com/150?text=Cecil'">
+                    <h3>Cecil</h3>
+                    <p>Coach</p>
+                </div>
+
+                <div class="team-card">
+                    <img src="static/images/team/ruvimbo.jpg" alt="Ruvimbo" onerror="this.src='https://via.placeholder.com/150?text=Ruvimbo'">
+                    <h3>Ruvimbo</h3>
+                    <p>Coach</p>
+                </div>
+
+                <div class="team-card">
+                    <img src="static/images/team/truth.jpg" alt="Truth" onerror="this.src='https://via.placeholder.com/150?text=Truth'">
+                    <h3>Truth</h3>
+                    <p>Coach</p>
+                </div>
+
+                <div class="team-card">
+                    <img src="static/images/team/munashe.jpg" alt="Munashe" onerror="this.src='https://via.placeholder.com/150?text=Munashe'">
+                    <h3>Munashe</h3>
+                    <p>Coach</p>
+                </div>
             </div>
+        </div>
     </section>
 
     <footer>
@@ -153,25 +252,8 @@
             } catch (err) { console.log("Bg Error", err); }
         }
 
-        // 3. Load Dr Blessing Image (Specific to About Page)
-        async function loadDrImage() {
-            try {
-                const response = await fetch(`${API_URL}/api/dr_blessing`);
-                const images = await response.json();
-                const container = document.getElementById('dr-about-frame');
-                
-                if (images.length > 0) {
-                    // Pick a random one for variety
-                    const randomImg = images[Math.floor(Math.random() * images.length)];
-                    container.style.background = `url('${API_URL}${randomImg}') center/cover no-repeat`;
-                }
-            } catch (e) { console.log("Dr Error", e); }
-        }
-
-        // --- RUN FUNCTIONS ---
+        // Run only the hero rotator (Dr Image is now static HTML)
         startHeroRotator();
-        loadDrImage();
-        // Notice: 'loadHeaderBg()' is GONE!
     </script>
 </body>
 </html>
