@@ -11,7 +11,7 @@
     <nav>
         <div class="logo">
             <a href="index.html">
-                <img src="logo.png" alt="SPS Logo" class="nav-logo-img">
+                <img src="static/images/logos/logo.png" alt="SPS Logo" class="nav-logo-img" onerror="this.src='logo.png'">
             </a>
         </div>
         
@@ -23,19 +23,22 @@
 
         <div class="nav-links" id="navLinks">
             <a href="index.html">Home</a>
-            <a href="about.html" style="color: #ffcccc;">About</a> <a href="courses.html">Courses</a>
+            <a href="about.html" style="color: #ffcccc;">About</a>
+            <a href="courses.html">Courses</a>
             <a href="articles.html">Articles</a>
             <a href="gallery.html">Gallery</a>
             <a href="contact.html">Contact</a>
-            <a href="https://takunda200.github.io/Student-Portal/" class="btn-portal">Student Portal</a>
+            <a href="https://digital-podium-84e90.web.app/" class="btn-portal">Student Portal</a>
         </div>
     </nav>
 
-    <header class="hero-section" id="hero" style="height: 50vh;"> <div class="overlay"></div>
-    <div class="hero-content">
-        <h1>Our Story</h1> <p style="color: white;">Building Confidence, one voice at a time</p>
-    </div>
-</header>
+    <header class="hero-section" id="hero" style="height: 50vh;">
+        <div class="overlay"></div>
+        <div class="hero-content">
+            <h1>Our Story</h1>
+            <p style="color: white;">Building Confidence, one voice at a time</p>
+        </div>
+    </header>
 
     <section class="section">
         <div class="container">
@@ -80,16 +83,14 @@
 
     <footer>
         <div class="footer-container">
-            
             <div class="footer-col">
-                <img src="logo.png" alt="SPS Logo" class="footer-logo-img" style="height: 60px; margin-bottom: 15px;">
+                <img src="static/images/logos/logo.png" alt="SPS Logo" class="footer-logo-img" style="height: 60px; margin-bottom: 15px;">
                 <p><strong>The School of Public Speaking</strong></p>
                 <p>226 Sherwood Drv,<br>Harare, Zimbabwe</p>
                 <br>
                 <p><strong>Main Office:</strong><br>+263 77 871 6405</p>
                 <p><strong>Hours:</strong><br>8:00 a.m. – 4:00 p.m.</p>
             </div>
-
             <div class="footer-col">
                 <h4>Quick Menu</h4>
                 <div class="footer-links">
@@ -97,20 +98,17 @@
                     <a href="about.html">About</a>
                     <a href="courses.html">Courses</a>
                     <a href="gallery.html">Media & Gallery</a>
-                    <a href="digital-podium-84e90.web.app" class="btn-portal" style="display:inline-block; margin-top:5px; background:none; padding:0; color:#aaa!important;">Student Portal</a>
+                    <a href="https://digital-podium-84e90.web.app/" class="btn-portal" style="display:inline-block; margin-top:5px; background:none; padding:0; color:#aaa!important;">Student Portal</a>
                     <a href="contact.html">Contact</a>
                 </div>
             </div>
-
             <div class="footer-col">
                 <h4>Latest Updates</h4>
-                <p><em>"Communication is the solvent of all problems and is the foundation for personal development."</em></p>
+                <p><em>"Communication is the solvent of all problems."</em></p>
                 <br>
                 <a href="articles.html" style="color: #800000; text-decoration: none;">&rarr; Read our Blog</a>
             </div>
-
         </div>
-
         <div class="copyright">
             <p>Copyright © 2026 School of Public Speaking | Powered by Takunda.</p>
         </div>
@@ -125,8 +123,7 @@
             nav.classList.toggle('active');
         }
 
-        // 2. Load One Random Background for Header
-        // Header Background Rotator
+        // 2. Header Background Rotator
         async function startHeroRotator() {
             try {
                 const response = await fetch(`${API_URL}/api/backgrounds`);
@@ -156,23 +153,25 @@
             } catch (err) { console.log("Bg Error", err); }
         }
 
-        startHeroRotator(); // Don't forget to run it!
-
-        // 3. Load Dr Blessing Image
+        // 3. Load Dr Blessing Image (Specific to About Page)
         async function loadDrImage() {
             try {
                 const response = await fetch(`${API_URL}/api/dr_blessing`);
                 const images = await response.json();
                 const container = document.getElementById('dr-about-frame');
+                
                 if (images.length > 0) {
-                    // Just take the first image for the About page
-                    container.style.background = `url('${API_URL}${images[0]}') center/cover no-repeat`;
+                    // Pick a random one for variety
+                    const randomImg = images[Math.floor(Math.random() * images.length)];
+                    container.style.background = `url('${API_URL}${randomImg}') center/cover no-repeat`;
                 }
-            } catch (e) { console.log("Dr Error"); }
+            } catch (e) { console.log("Dr Error", e); }
         }
 
-        loadHeaderBg();
+        // --- RUN FUNCTIONS ---
+        startHeroRotator();
         loadDrImage();
+        // Notice: 'loadHeaderBg()' is GONE!
     </script>
 </body>
 </html>
