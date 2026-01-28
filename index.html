@@ -8,8 +8,6 @@
     
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
-    <script async src="https://www.tiktok.com/embed.js"></script>
-
     <meta name="description" content="Zimbabwe's premier public speaking academy. Learn to speak with authority, overcome stage fright, and lead with influence.">
     <meta name="keywords" content="School of Public Speaking, Dr Blessing Mandipira, Blessing Mandipira, Dr Mandipira, Public Speaking Zimbabwe, Communication Skills Harare, Leadership Training, Executive Coaching, Grooming and Etiquette, Confidence Building, Overcoming Stage Fright, Presentation Skills, Corporate Training Zimbabwe, IELTS Preparation Harare, IELTS Speaking Test, Voice Coaching, Vocal Variety, Rhetoric, Oratory, Debate Coaching, Soft Skills, Personal Branding, Crisis Communication, Speech Writing, Professional Development, Public Speaking Course Harare, Best Speaker Zimbabwe, Keynote Speaker, Master Class, Motivation, Self Development">
     <meta name="author" content="School of Public Speaking">
@@ -155,16 +153,16 @@
 
     <section class="section">
         <div class="container" style="text-align: center;">
-            <h2 style="margin-bottom: 5px;">Trending on TikTok</h2>
-            <p style="color: #666; margin-bottom: 30px;">Watch our latest public speaking tips.</p>
+            <h2 style="margin-bottom: 5px;">Latest Videos</h2>
+            <p style="color: #666; margin-bottom: 30px;">Watch our latest public speaking tips on YouTube.</p>
             
-            <div id="tiktok-grid" class="grid-3">
+            <div id="youtube-grid" class="grid-3">
                 <p style="width:100%; color:#888;">Loading videos...</p>
             </div>
             
             <br>
-            <a href="https://www.tiktok.com/@schoolofpublicspeaking" target="_blank" class="btn-hero" style="background: black; border: none;">
-                <i class="fa-brands fa-tiktok"></i> Follow us on TikTok
+            <a href="https://www.youtube.com/@schoolofpublicspeaking" target="_blank" class="btn-hero" style="background: #FF0000; border: none;">
+                <i class="fa-brands fa-youtube"></i> Subscribe on YouTube
             </a>
         </div>
     </section>
@@ -202,7 +200,7 @@
         <div class="footer-container">
             
             <div class="footer-col">
-                <img src="logo.png" alt="SPS Logo" class="footer-logo-img" style="height: 60px; margin-bottom: 15px;">
+                <img src="static/images/logos/logo.png" alt="SPS Logo" class="footer-logo-img" style="height: 60px; margin-bottom: 15px;">
                 <p><strong>The School of Public Speaking</strong></p>
                 <p>226 Sherwood Drv,<br>Harare, Zimbabwe</p>
                 
@@ -268,13 +266,11 @@
 
                 if (images.length === 0) return;
 
-                // --- Part A: Set Testimonial Image (Picks a random one from the list) ---
                 if (testimonialAvatar) {
                     const randomImage = images[Math.floor(Math.random() * images.length)];
                     testimonialAvatar.style.backgroundImage = `url('${API_URL}${randomImage}')`;
                 }
 
-                // --- Part B: Rotate Hero Backgrounds ---
                 let currentIndex = 0;
                 images.forEach((imgUrl, index) => {
                     const div = document.createElement('div');
@@ -336,13 +332,11 @@
         async function loadLatestNews() {
             const container = document.getElementById('latest-news-grid');
             try {
-                // Fetch articles from backend
                 const response = await fetch(`${API_URL}/api/news`); 
                 const articles = await response.json();
 
-                container.innerHTML = ""; // Clear loading text
+                container.innerHTML = ""; 
 
-                // Show only the latest 3
                 const latestArticles = articles.slice(0, 3); 
 
                 if (latestArticles.length === 0) {
@@ -377,14 +371,12 @@
             }
         }
 
-        // 4. LOAD TIKTOK VIDEOS
-        // 4. LOAD TIKTOK VIDEOS (Fixed to show Player)
-        async function loadTikTokVideos() {
-            const container = document.getElementById('tiktok-grid');
+        // 4. LOAD YOUTUBE VIDEOS (Replaces TikTok)
+        async function loadYouTubeVideos() {
+            const container = document.getElementById('youtube-grid');
             try {
                 const response = await fetch(`${API_URL}/api/videos`);
                 const videos = await response.json();
-                
                 container.innerHTML = "";
 
                 if (videos.length === 0) {
@@ -393,43 +385,37 @@
                 }
 
                 videos.forEach(video => {
-                    // 1. Clean the URL to get the ID safely
-                    // Removes query params like "?share=..." if present
-                    const cleanUrl = video.url.split('?')[0]; 
-                    const videoId = cleanUrl.split('/').pop();
-
-                    // 2. Build the Embed Code
-                    const blockquote = document.createElement('blockquote');
-                    blockquote.className = 'tiktok-embed';
-                    blockquote.setAttribute('cite', cleanUrl);
-                    blockquote.setAttribute('data-video-id', videoId);
-                    blockquote.style.maxWidth = "325px"; // Phone width
-                    blockquote.style.minWidth = "325px";
-                    
-                    blockquote.innerHTML = `
-                        <section>
-                            <a target="_blank" href="${cleanUrl}">@schoolofpublicspeaking</a>
-                        </section>
-                    `;
-                    container.appendChild(blockquote);
+                    // Extract Video ID
+                    const id = getYouTubeID(video.url);
+                    if (id) {
+                        const iframe = document.createElement('div');
+                        iframe.style.position = "relative";
+                        iframe.style.paddingBottom = "56.25%"; // 16:9 Aspect Ratio
+                        iframe.style.height = "0";
+                        iframe.style.marginBottom = "20px";
+                        
+                        iframe.innerHTML = `
+                            <iframe 
+                                src="https://www.youtube.com/embed/${id}" 
+                                style="position:absolute; top:0; left:0; width:100%; height:100%; border-radius:10px;" 
+                                frameborder="0" 
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                allowfullscreen>
+                            </iframe>
+                        `;
+                        container.appendChild(iframe);
+                    }
                 });
-
-                // 3. FORCE TIKTOK TO RELOAD
-                // We remove the old script and add a new one to force it to scan the new videos
-                const oldScript = document.getElementById('tiktok-script');
-                if (oldScript) oldScript.remove();
-
-                const script = document.createElement('script');
-                script.id = 'tiktok-script';
-                script.src = "https://www.tiktok.com/embed.js";
-                script.async = true;
-                document.body.appendChild(script);
-
-            } catch (error) {
-                console.log("TikTok Error", error);
-                container.innerHTML = "<p style='color:red;'>Failed to load videos.</p>";
-            }
+            } catch (error) { console.log("YT Error", error); }
         }
+
+        // Helper to extract ID from various YouTube URL formats
+        function getYouTubeID(url) {
+            const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+            const match = url.match(regExp);
+            return (match && match[2].length === 11) ? match[2] : null;
+        }
+
         // 5. MENU TOGGLE
         function toggleMenu() {
             const nav = document.getElementById('navLinks');
@@ -440,7 +426,7 @@
         startHeroRotator();
         startDrRotator();
         loadLatestNews(); 
-        loadTikTokVideos();
+        loadYouTubeVideos();
     </script>
 </body>
 </html>
