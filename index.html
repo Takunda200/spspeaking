@@ -378,6 +378,7 @@
         }
 
         // 4. LOAD TIKTOK VIDEOS
+        // 4. LOAD TIKTOK VIDEOS (Fixed to show Player)
         async function loadTikTokVideos() {
             const container = document.getElementById('tiktok-grid');
             try {
@@ -392,32 +393,43 @@
                 }
 
                 videos.forEach(video => {
+                    // 1. Clean the URL to get the ID safely
+                    // Removes query params like "?share=..." if present
+                    const cleanUrl = video.url.split('?')[0]; 
+                    const videoId = cleanUrl.split('/').pop();
+
+                    // 2. Build the Embed Code
                     const blockquote = document.createElement('blockquote');
                     blockquote.className = 'tiktok-embed';
-                    blockquote.setAttribute('cite', video.url);
-                    blockquote.setAttribute('data-video-id', video.url.split('/').pop());
-                    blockquote.style.maxWidth = "605px";
+                    blockquote.setAttribute('cite', cleanUrl);
+                    blockquote.setAttribute('data-video-id', videoId);
+                    blockquote.style.maxWidth = "325px"; // Phone width
                     blockquote.style.minWidth = "325px";
                     
                     blockquote.innerHTML = `
                         <section>
-                            <a target="_blank" href="${video.url}">@schoolofpublicspeaking</a>
+                            <a target="_blank" href="${cleanUrl}">@schoolofpublicspeaking</a>
                         </section>
                     `;
                     container.appendChild(blockquote);
                 });
 
-                // Reload TikTok Script
-                if (window.tiktokEmbed) {
-                     window.tiktokEmbed.lib.render();
-                }
+                // 3. FORCE TIKTOK TO RELOAD
+                // We remove the old script and add a new one to force it to scan the new videos
+                const oldScript = document.getElementById('tiktok-script');
+                if (oldScript) oldScript.remove();
+
+                const script = document.createElement('script');
+                script.id = 'tiktok-script';
+                script.src = "https://www.tiktok.com/embed.js";
+                script.async = true;
+                document.body.appendChild(script);
 
             } catch (error) {
                 console.log("TikTok Error", error);
                 container.innerHTML = "<p style='color:red;'>Failed to load videos.</p>";
             }
         }
-
         // 5. MENU TOGGLE
         function toggleMenu() {
             const nav = document.getElementById('navLinks');
