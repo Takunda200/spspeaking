@@ -5,6 +5,11 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>School of Public Speaking | Find Your Voice</title>
     <link rel="stylesheet" href="style.css">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <script async src="https://www.tiktok.com/embed.js"></script>
+
     <meta name="description" content="Zimbabwe's premier public speaking academy. Learn to speak with authority, overcome stage fright, and lead with influence.">
     <meta name="keywords" content="School of Public Speaking, Dr Blessing Mandipira, Blessing Mandipira, Dr Mandipira, Public Speaking Zimbabwe, Communication Skills Harare, Leadership Training, Executive Coaching, Grooming and Etiquette, Confidence Building, Overcoming Stage Fright, Presentation Skills, Corporate Training Zimbabwe, IELTS Preparation Harare, IELTS Speaking Test, Voice Coaching, Vocal Variety, Rhetoric, Oratory, Debate Coaching, Soft Skills, Personal Branding, Crisis Communication, Speech Writing, Professional Development, Public Speaking Course Harare, Best Speaker Zimbabwe, Keynote Speaker, Master Class, Motivation, Self Development">
     <meta name="author" content="School of Public Speaking">
@@ -20,8 +25,37 @@
     <meta property="twitter:title" content="School of Public Speaking">
     <meta property="twitter:description" content="Speak With Authority. Lead With Influence.">
     <meta property="twitter:image" content="https://Takunda2000.pythonanywhere.com/static/images/courses/mastery.jpg">
-    
-    <script async src="https://www.tiktok.com/embed.js"></script>
+
+    <style>
+        /* SOCIAL MEDIA BUTTON STYLES */
+        .social-icons {
+            display: flex;
+            gap: 15px;
+            margin-top: 10px;
+        }
+        .social-btn {
+            width: 40px;
+            height: 40px;
+            background: #eee;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-decoration: none;
+            color: #333;
+            transition: all 0.3s ease;
+            font-size: 1.2rem;
+        }
+        .social-btn:hover {
+            transform: translateY(-3px);
+            color: white;
+        }
+        /* Brand Colors */
+        .social-btn.fb:hover { background: #1877F2; } /* Facebook Blue */
+        .social-btn.li:hover { background: #0077B5; } /* LinkedIn Blue */
+        .social-btn.yt:hover { background: #FF0000; } /* YouTube Red */
+        .social-btn.tt:hover { background: #000000; } /* TikTok Black */
+    </style>
 </head>
 <body>
 
@@ -130,7 +164,7 @@
             
             <br>
             <a href="https://www.tiktok.com/@schoolofpublicspeaking" target="_blank" class="btn-hero" style="background: black; border: none;">
-                Follow us on TikTok 🎵
+                <i class="fa-brands fa-tiktok"></i> Follow us on TikTok
             </a>
         </div>
     </section>
@@ -174,11 +208,19 @@
                 
                 <div style="margin-top: 20px;">
                     <p style="margin-bottom: 10px; font-weight: bold;">Connect with us:</p>
-                    <div style="display: flex; gap: 15px; font-size: 1.5rem;">
-                        <a href="https://facebook.com" target="_blank" style="text-decoration:none;">📘</a>
-                        <a href="https://linkedin.com" target="_blank" style="text-decoration:none;">💼</a>
-                        <a href="https://youtube.com" target="_blank" style="text-decoration:none;">▶️</a>
-                        <a href="https://tiktok.com" target="_blank" style="text-decoration:none;">🎵</a>
+                    <div class="social-icons">
+                        <a href="https://facebook.com" target="_blank" class="social-btn fb">
+                            <i class="fa-brands fa-facebook-f"></i>
+                        </a>
+                        <a href="https://linkedin.com" target="_blank" class="social-btn li">
+                            <i class="fa-brands fa-linkedin-in"></i>
+                        </a>
+                        <a href="https://youtube.com" target="_blank" class="social-btn yt">
+                            <i class="fa-brands fa-youtube"></i>
+                        </a>
+                        <a href="https://tiktok.com" target="_blank" class="social-btn tt">
+                            <i class="fa-brands fa-tiktok"></i>
+                        </a>
                     </div>
                 </div>
 
