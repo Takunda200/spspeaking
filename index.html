@@ -20,13 +20,15 @@
     <meta property="twitter:title" content="School of Public Speaking">
     <meta property="twitter:description" content="Speak With Authority. Lead With Influence.">
     <meta property="twitter:image" content="https://Takunda2000.pythonanywhere.com/static/images/courses/mastery.jpg">
+    
+    <script async src="https://www.tiktok.com/embed.js"></script>
 </head>
 <body>
 
     <nav>
         <div class="logo">
             <a href="index.html">
-                <img src="logo.png" alt="SPS Logo" class="nav-logo-img" onerror="this.src='logo.png'">
+                <img src="static/images/logos/logo.png" alt="SPS Logo" class="nav-logo-img" onerror="this.src='logo.png'">
             </a>
         </div>
         
@@ -117,6 +119,22 @@
         </div>
     </section>
 
+    <section class="section">
+        <div class="container" style="text-align: center;">
+            <h2 style="margin-bottom: 5px;">Trending on TikTok</h2>
+            <p style="color: #666; margin-bottom: 30px;">Watch our latest public speaking tips.</p>
+            
+            <div id="tiktok-grid" class="grid-3">
+                <p style="width:100%; color:#888;">Loading videos...</p>
+            </div>
+            
+            <br>
+            <a href="https://www.tiktok.com/@schoolofpublicspeaking" target="_blank" class="btn-hero" style="background: black; border: none;">
+                Follow us on TikTok 🎵
+            </a>
+        </div>
+    </section>
+
     <section class="section" style="background: #003366; color: white;">
         <div class="container">
             <h2 style="color: white;">Student Success Stories</h2>
@@ -150,9 +168,20 @@
         <div class="footer-container">
             
             <div class="footer-col">
-                <img src="logo.png" alt="SPS Logo" class="footer-logo-img" style="height: 60px; margin-bottom: 15px;">
+                <img src="static/images/logos/logo.png" alt="SPS Logo" class="footer-logo-img" style="height: 60px; margin-bottom: 15px;">
                 <p><strong>The School of Public Speaking</strong></p>
                 <p>226 Sherwood Drv,<br>Harare, Zimbabwe</p>
+                
+                <div style="margin-top: 20px;">
+                    <p style="margin-bottom: 10px; font-weight: bold;">Connect with us:</p>
+                    <div style="display: flex; gap: 15px; font-size: 1.5rem;">
+                        <a href="https://facebook.com" target="_blank" style="text-decoration:none;">📘</a>
+                        <a href="https://linkedin.com" target="_blank" style="text-decoration:none;">💼</a>
+                        <a href="https://youtube.com" target="_blank" style="text-decoration:none;">▶️</a>
+                        <a href="https://tiktok.com" target="_blank" style="text-decoration:none;">🎵</a>
+                    </div>
+                </div>
+
                 <br>
                 <p><strong>Main Office:</strong><br>+263 77 871 6405</p>
                 <p><strong>Hours:</strong><br>8:00 a.m. – 6:00 p.m.</p>
@@ -210,9 +239,9 @@
                     div.classList.add('bg-layer');
                     div.style.backgroundImage = `url('${API_URL}${imgUrl}')`;
                     
-                    // --- FIX: FORCE TOP ALIGNMENT ---
+                    // --- FIX: Center Top to keep heads visible ---
                     div.style.backgroundPosition = "center top"; 
-                    // --------------------------------
+                    // ---------------------------------------------
 
                     if (index === 0) div.style.opacity = 1;
                     hero.insertBefore(div, hero.firstChild);
@@ -261,7 +290,7 @@
             } catch (err) { console.log("Dr Error", err); }
         }
 
-        // 3. LOAD LATEST NEWS (NEW FUNCTION)
+        // 3. LOAD LATEST NEWS
         async function loadLatestNews() {
             const container = document.getElementById('latest-news-grid');
             try {
@@ -281,12 +310,11 @@
 
                 latestArticles.forEach(article => {
                     const card = document.createElement('div');
-                    card.className = 'feature-card'; // Reuse existing card style
+                    card.className = 'feature-card'; 
                     card.style.textAlign = 'left';
-                    card.style.padding = '0'; // Remove default padding for cleaner look
+                    card.style.padding = '0'; 
                     card.style.overflow = 'hidden';
 
-                    // Use a default image if none provided
                     const imgUrl = article.image ? `${API_URL}${article.image}` : 'static/images/courses/mastery.jpg';
 
                     card.innerHTML = `
@@ -307,7 +335,48 @@
             }
         }
 
-        // 4. MENU TOGGLE
+        // 4. LOAD TIKTOK VIDEOS
+        async function loadTikTokVideos() {
+            const container = document.getElementById('tiktok-grid');
+            try {
+                const response = await fetch(`${API_URL}/api/videos`);
+                const videos = await response.json();
+                
+                container.innerHTML = "";
+
+                if (videos.length === 0) {
+                    container.innerHTML = "<p style='width:100%; text-align:center;'>Check back soon for videos!</p>";
+                    return;
+                }
+
+                videos.forEach(video => {
+                    const blockquote = document.createElement('blockquote');
+                    blockquote.className = 'tiktok-embed';
+                    blockquote.setAttribute('cite', video.url);
+                    blockquote.setAttribute('data-video-id', video.url.split('/').pop());
+                    blockquote.style.maxWidth = "605px";
+                    blockquote.style.minWidth = "325px";
+                    
+                    blockquote.innerHTML = `
+                        <section>
+                            <a target="_blank" href="${video.url}">@schoolofpublicspeaking</a>
+                        </section>
+                    `;
+                    container.appendChild(blockquote);
+                });
+
+                // Reload TikTok Script
+                if (window.tiktokEmbed) {
+                     window.tiktokEmbed.lib.render();
+                }
+
+            } catch (error) {
+                console.log("TikTok Error", error);
+                container.innerHTML = "<p style='color:red;'>Failed to load videos.</p>";
+            }
+        }
+
+        // 5. MENU TOGGLE
         function toggleMenu() {
             const nav = document.getElementById('navLinks');
             nav.classList.toggle('active');
@@ -317,6 +386,7 @@
         startHeroRotator();
         startDrRotator();
         loadLatestNews(); 
+        loadTikTokVideos();
     </script>
 </body>
 </html>
