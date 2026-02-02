@@ -239,11 +239,22 @@
                 </div>
             </div>
 
-            <div class="footer-col">
-                <h4>Latest Updates</h4>
-                <p><em>"Communication is the solvent of all problems and is the foundation for personal development."</em></p>
+           <div class="footer-col">
+                <h4>Join Our Newsletter</h4>
+                <p>Get the latest public speaking tips and event news directly to your inbox.</p>
                 <br>
-                <a href="articles.html" style="color: #800000; text-decoration: none;">&rarr; Read our Blog</a>
+                
+                <div style="display: flex; flex-direction: column; gap: 10px;">
+                    <input type="email" id="sub-email" placeholder="Enter your email" 
+                           style="padding: 10px; border: none; border-radius: 5px; width: 90%;">
+                    
+                    <button onclick="subscribeUser()" 
+                            style="padding: 10px; background: #800000; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">
+                        SUBSCRIBE
+                    </button>
+                    
+                    <p id="sub-msg" style="font-size: 0.8rem; color: #ccc; margin-top: 5px;"></p>
+                </div>
             </div>
 
         </div>
