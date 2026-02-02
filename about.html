@@ -5,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>About Us | School of Public Speaking</title>
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         /* Special CSS for the Team Grid just for this page */
         .team-grid {
@@ -354,7 +355,46 @@
                 }
             } catch (err) { console.log("Bg Error", err); }
         }
+// SUBSCRIBE FUNCTION (Required for Footer)
+        async function subscribeUser() {
+            const emailInput = document.getElementById('sub-email');
+            const msgBox = document.getElementById('sub-msg');
+            const email = emailInput.value;
 
+            if (!email || !email.includes('@')) {
+                msgBox.style.color = "red";
+                msgBox.innerText = "Please enter a valid email.";
+                return;
+            }
+
+            msgBox.innerText = "Processing...";
+
+            try {
+                const formData = new FormData();
+                formData.append('email', email);
+
+                const response = await fetch(`${API_URL}/api/subscribe`, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    msgBox.style.color = "#4CAF50"; // Green
+                    msgBox.innerText = "Welcome to the family!";
+                    emailInput.value = ""; 
+                } else {
+                    msgBox.style.color = "orange";
+                    msgBox.innerText = result.message;
+                }
+
+            } catch (error) {
+                console.log(error);
+                msgBox.style.color = "red";
+                msgBox.innerText = "Connection error. Try again.";
+            }
+        }
         // Run only the hero rotator (Dr Image is now static HTML)
         startHeroRotator();
     </script>
