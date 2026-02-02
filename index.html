@@ -54,6 +54,7 @@
         .social-btn.yt:hover { background: #FF0000; } /* YouTube Red */
         .social-btn.tt:hover { background: #000000; } /* TikTok Black */
 
+        /* POPUP STYLES */
         .popup-overlay {
             position: fixed;
             top: 0;
@@ -93,7 +94,8 @@
     </style>
 </head>
 <body>
-<div id="newsletter-popup" class="popup-overlay">
+
+    <div id="newsletter-popup" class="popup-overlay">
         <div class="popup-content">
             <span class="close-popup" onclick="closePopup()">&times;</span>
             
@@ -115,6 +117,7 @@
             <p id="popup-msg" style="margin-top: 10px; font-size: 0.8rem;"></p>
         </div>
     </div>
+
     <nav>
         <div class="logo">
             <a href="index.html">
@@ -135,7 +138,7 @@
             <a href="articles.html">Articles</a>
             <a href="gallery.html">Gallery</a>
             <a href="contact.html">Contact</a>
-            <a href="https://digital-podium-84e90.web.app/" class="btn-portal">Student Portal</a>
+            <a href="https://takunda200.github.io/Student-Portal/" class="btn-portal">Student Portal</a>
         </div>
     </nav>
 
@@ -491,7 +494,7 @@
             nav.classList.toggle('active');
         }
 
-        // 5. SUBSCRIBE FUNCTION
+        // 6. SUBSCRIBE FUNCTION (FOOTER)
         async function subscribeUser() {
             const emailInput = document.getElementById('sub-email');
             const msgBox = document.getElementById('sub-msg');
@@ -506,7 +509,6 @@
             msgBox.innerText = "Processing...";
 
             try {
-                // We use FormData to send it like a standard form
                 const formData = new FormData();
                 formData.append('email', email);
 
@@ -532,9 +534,10 @@
                 msgBox.innerText = "Connection error. Try again.";
             }
         }
-        // --- POPUP LOGIC ---
+
+        // 7. POPUP LOGIC
         
-        // 1. Show Popup (Wait 5 seconds)
+        // Show Popup (Wait 5 seconds)
         setTimeout(() => {
             // Check if user has already seen it this session
             if (!sessionStorage.getItem('newsletterSeen')) {
@@ -542,14 +545,14 @@
             }
         }, 5000);
 
-        // 2. Close Popup
+        // Close Popup
         function closePopup() {
             document.getElementById('newsletter-popup').style.display = 'none';
             // Mark as seen so it doesn't show again until browser restart
             sessionStorage.setItem('newsletterSeen', 'true');
         }
 
-        // 3. Subscribe from Popup (Separate function to target specific input)
+        // Subscribe from Popup (Separate function to target specific input)
         async function subscribeFromPopup() {
             const emailInput = document.getElementById('popup-email');
             const msgBox = document.getElementById('popup-msg');
@@ -587,6 +590,7 @@
                 msgBox.innerText = "Connection error.";
             }
         }
+
         // RUN ALL
         startHeroRotator();
         startDrRotator();
