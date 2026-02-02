@@ -104,14 +104,35 @@
 
     <footer>
         <div class="footer-container">
+            
             <div class="footer-col">
-                <img src="static/images/logos/logo.png" alt="SPS Logo" class="footer-logo-img" style="height: 60px; margin-bottom: 15px;">
+                <img src="logo.png" alt="SPS Logo" class="footer-logo-img" style="height: 60px; margin-bottom: 15px;">
                 <p><strong>The School of Public Speaking</strong></p>
-                <p>226 Sherwood Dr,<br>Harare, Zimbabwe</p>
+                <p>226 Sherwood Drv,<br>Harare, Zimbabwe</p>
+                
+                <div style="margin-top: 20px;">
+                    <p style="margin-bottom: 10px; font-weight: bold;">Connect with us:</p>
+                    <div class="social-icons">
+                        <a href="https://www.facebook.com/schoolofpublicspeakingzimbabwe" target="_blank" class="social-btn fb">
+                            <i class="fa-brands fa-facebook-f"></i>
+                        </a>
+                        <a href="https://www.linkedin.com/company/school-of-public-speaking-zw/posts/" target="_blank" class="social-btn li">
+                            <i class="fa-brands fa-linkedin-in"></i>
+                        </a>
+                        <a href="http://www.youtube.com/@schoolofpublicspeakingzimb2264" target="_blank" class="social-btn yt">
+                            <i class="fa-brands fa-youtube"></i>
+                        </a>
+                        <a href="https://www.tiktok.com/@schoolofpublicspeaking" target="_blank" class="social-btn tt">
+                            <i class="fa-brands fa-tiktok"></i>
+                        </a>
+                    </div>
+                </div>
+
                 <br>
                 <p><strong>Main Office:</strong><br>+263 77 871 6405</p>
-                <p><strong>Hours:</strong><br>8:00 a.m. – 4:00 p.m.</p>
+                <p><strong>Hours:</strong><br>8:00 a.m. – 6:00 p.m.</p>
             </div>
+
             <div class="footer-col">
                 <h4>Quick Menu</h4>
                 <div class="footer-links">
@@ -123,17 +144,32 @@
                     <a href="contact.html">Contact</a>
                 </div>
             </div>
-            <div class="footer-col">
-                <h4>Latest Updates</h4>
-                <p><em>"Communication is the solvent of all problems."</em></p>
+
+           <div class="footer-col">
+                <h4>Join Our Newsletter</h4>
+                <p>Get the latest public speaking tips and event news directly to your inbox.</p>
                 <br>
-                <a href="articles.html" style="color: #800000; text-decoration: none;">&rarr; Read our Blog</a>
+                
+                <div style="display: flex; flex-direction: column; gap: 10px;">
+                    <input type="email" id="sub-email" placeholder="Enter your email" 
+                           style="padding: 10px; border: none; border-radius: 5px; width: 90%;">
+                    
+                    <button onclick="subscribeUser()" 
+                            style="padding: 10px; background: #800000; color: white; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">
+                        SUBSCRIBE
+                    </button>
+                    
+                    <p id="sub-msg" style="font-size: 0.8rem; color: #ccc; margin-top: 5px;"></p>
+                </div>
             </div>
+
         </div>
+
         <div class="copyright">
             <p>Copyright © 2026 School of Public Speaking | Powered by Takunda.</p>
         </div>
     </footer>
+
 
     <script>
         const API_URL = "https://Takunda2000.pythonanywhere.com"; 
