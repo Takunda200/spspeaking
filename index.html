@@ -53,10 +53,68 @@
         .social-btn.li:hover { background: #0077B5; } /* LinkedIn Blue */
         .social-btn.yt:hover { background: #FF0000; } /* YouTube Red */
         .social-btn.tt:hover { background: #000000; } /* TikTok Black */
+
+        .popup-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            z-index: 2000; /* On top of everything */
+            display: none; /* Hidden by default */
+            justify-content: center;
+            align-items: center;
+        }
+        .popup-content {
+            background: white;
+            padding: 30px;
+            border-radius: 15px;
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+            position: relative;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.5);
+            animation: slideUp 0.5s ease-out;
+        }
+        @keyframes slideUp {
+            from { transform: translateY(50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+        .close-popup {
+            position: absolute;
+            top: 10px;
+            right: 15px;
+            font-size: 24px;
+            cursor: pointer;
+            color: #aaa;
+        }
+        .close-popup:hover { color: red; }
     </style>
 </head>
 <body>
+<div id="newsletter-popup" class="popup-overlay">
+        <div class="popup-content">
+            <span class="close-popup" onclick="closePopup()">&times;</span>
+            
+            <img src="static/images/logos/logo.png" alt="SPS Logo" style="height: 80px; margin-bottom: 15px;" onerror="this.src='logo.png'">
+            
+            <h2 style="color: #003366;">Join the Elite</h2>
+            <p style="color: #666; font-size: 0.9rem; margin-bottom: 20px;">
+                Get exclusive public speaking tips and event invites delivered to your inbox.
+            </p>
 
+            <input type="email" id="popup-email" placeholder="Enter your email address" 
+                   style="width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px;">
+            
+            <button onclick="subscribeFromPopup()" 
+                    style="width: 100%; padding: 12px; background: #800000; color: white; border: none; border-radius: 5px; font-weight: bold; cursor: pointer;">
+                SUBSCRIBE NOW
+            </button>
+            
+            <p id="popup-msg" style="margin-top: 10px; font-size: 0.8rem;"></p>
+        </div>
+    </div>
     <nav>
         <div class="logo">
             <a href="index.html">
@@ -472,6 +530,61 @@
                 console.log(error);
                 msgBox.style.color = "red";
                 msgBox.innerText = "Connection error. Try again.";
+            }
+        }
+        // --- POPUP LOGIC ---
+        
+        // 1. Show Popup (Wait 5 seconds)
+        setTimeout(() => {
+            // Check if user has already seen it this session
+            if (!sessionStorage.getItem('newsletterSeen')) {
+                document.getElementById('newsletter-popup').style.display = 'flex';
+            }
+        }, 5000);
+
+        // 2. Close Popup
+        function closePopup() {
+            document.getElementById('newsletter-popup').style.display = 'none';
+            // Mark as seen so it doesn't show again until browser restart
+            sessionStorage.setItem('newsletterSeen', 'true');
+        }
+
+        // 3. Subscribe from Popup (Separate function to target specific input)
+        async function subscribeFromPopup() {
+            const emailInput = document.getElementById('popup-email');
+            const msgBox = document.getElementById('popup-msg');
+            const email = emailInput.value;
+
+            if (!email || !email.includes('@')) {
+                msgBox.style.color = "red";
+                msgBox.innerText = "Please enter a valid email.";
+                return;
+            }
+
+            msgBox.innerText = "Processing...";
+
+            try {
+                const formData = new FormData();
+                formData.append('email', email);
+
+                const response = await fetch(`${API_URL}/api/subscribe`, {
+                    method: 'POST',
+                    body: formData
+                });
+
+                const result = await response.json();
+
+                if (response.ok) {
+                    msgBox.style.color = "green";
+                    msgBox.innerText = "Success! Closing...";
+                    setTimeout(closePopup, 2000); // Close automatically on success
+                } else {
+                    msgBox.style.color = "orange";
+                    msgBox.innerText = result.message;
+                }
+            } catch (error) {
+                msgBox.style.color = "red";
+                msgBox.innerText = "Connection error.";
             }
         }
         // RUN ALL
