@@ -447,7 +447,7 @@
         async function loadYouTubeVideos() {
             const container = document.getElementById('youtube-grid');
             try {
-                const response = await fetch(`${API_URL}/api/videos?limit=3`);
+                const response = await fetch(`${API_URL}/api/videos?limit=3`); 
                 const videos = await response.json();
                 container.innerHTML = "";
 
