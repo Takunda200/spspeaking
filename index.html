@@ -49,10 +49,10 @@
             color: white;
         }
         /* Brand Colors */
-        .social-btn.fb:hover { background: #1877F2; } /* Facebook Blue */
-        .social-btn.li:hover { background: #0077B5; } /* LinkedIn Blue */
-        .social-btn.yt:hover { background: #FF0000; } /* YouTube Red */
-        .social-btn.tt:hover { background: #000000; } /* TikTok Black */
+        .social-btn.fb:hover { background: #1877F2; } 
+        .social-btn.li:hover { background: #0077B5; } 
+        .social-btn.yt:hover { background: #FF0000; } 
+        .social-btn.tt:hover { background: #000000; } 
 
         /* POPUP STYLES */
         .popup-overlay {
@@ -62,8 +62,8 @@
             width: 100%;
             height: 100%;
             background: rgba(0, 0, 0, 0.7);
-            z-index: 2000; /* On top of everything */
-            display: none; /* Hidden by default */
+            z-index: 2000;
+            display: none;
             justify-content: center;
             align-items: center;
         }
@@ -230,16 +230,12 @@
 
     <section class="section" style="background: #003366; color: white;">
         <div class="container">
-            <h2 style="color: white;">Student Success Stories</h2>
-            <div style="max-width: 800px; margin: 0 auto; text-align: center;">
-                
-                <div id="testimonial-avatar" class="testimonial-avatar"></div>
-
-                <p style="font-size: 1.5rem; font-style: italic; color: #fff;">
-                    "I walked into the school unable to say my name without shaking. Two months later, I hosted my company's annual awards dinner. Dr. Blessing changed my life."
-                </p>
-                <p style="margin-top: 20px; font-weight: bold; color: #ccc;">- Sarah T., Marketing Executive</p>
+            <h2 style="color: white; text-align: center; margin-bottom: 40px;">Student Success Stories</h2>
+            
+            <div id="testimonials-grid" class="grid-3" style="text-align: left;">
+                <p style="width:100%; text-align:center; color:#ccc;">Loading success stories...</p>
             </div>
+            
         </div>
     </section>
 
@@ -261,7 +257,7 @@
         <div class="footer-container">
             
             <div class="footer-col">
-                <img src="logo.png" alt="SPS Logo" class="footer-logo-img" style="height: 60px; margin-bottom: 15px;">
+                <img src="static/images/logos/logo.png" alt="SPS Logo" class="footer-logo-img" style="height: 60px; margin-bottom: 15px;">
                 <p><strong>The School of Public Speaking</strong></p>
                 <p>226 Sherwood Drv,<br>Harare, Zimbabwe</p>
                 
@@ -328,31 +324,21 @@
     <script>
         const API_URL = "https://Takunda2000.pythonanywhere.com"; 
 
-        // 1. ROTATE HERO BACKGROUNDS + SET TESTIMONIAL IMAGE
+        // 1. ROTATE HERO BACKGROUNDS
         async function startHeroRotator() {
             try {
                 const response = await fetch(`${API_URL}/api/backgrounds`);
                 const images = await response.json();
                 const hero = document.getElementById('hero');
-                const testimonialAvatar = document.getElementById('testimonial-avatar');
 
                 if (images.length === 0) return;
-
-                if (testimonialAvatar) {
-                    const randomImage = images[Math.floor(Math.random() * images.length)];
-                    testimonialAvatar.style.backgroundImage = `url('${API_URL}${randomImage}')`;
-                }
 
                 let currentIndex = 0;
                 images.forEach((imgUrl, index) => {
                     const div = document.createElement('div');
                     div.classList.add('bg-layer');
                     div.style.backgroundImage = `url('${API_URL}${imgUrl}')`;
-                    
-                    // --- FIX: Center Top to keep heads visible ---
                     div.style.backgroundPosition = "center top"; 
-                    // ---------------------------------------------
-
                     if (index === 0) div.style.opacity = 1;
                     hero.insertBefore(div, hero.firstChild);
                 });
@@ -443,7 +429,7 @@
             }
         }
 
-        // 4. LOAD YOUTUBE VIDEOS (Replaces TikTok)
+        // 4. LOAD YOUTUBE VIDEOS 
         async function loadYouTubeVideos() {
             const container = document.getElementById('youtube-grid');
             try {
@@ -457,12 +443,11 @@
                 }
 
                 videos.forEach(video => {
-                    // Extract Video ID
                     const id = getYouTubeID(video.url);
                     if (id) {
                         const iframe = document.createElement('div');
                         iframe.style.position = "relative";
-                        iframe.style.paddingBottom = "56.25%"; // 16:9 Aspect Ratio
+                        iframe.style.paddingBottom = "56.25%"; 
                         iframe.style.height = "0";
                         iframe.style.marginBottom = "20px";
                         
@@ -481,20 +466,57 @@
             } catch (error) { console.log("YT Error", error); }
         }
 
-        // Helper to extract ID from various YouTube URL formats
         function getYouTubeID(url) {
             const regExp = /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
             const match = url.match(regExp);
             return (match && match[2].length === 11) ? match[2] : null;
         }
 
-        // 5. MENU TOGGLE
+        // 5. LOAD DYNAMIC TESTIMONIALS
+        async function loadTestimonials() {
+            const container = document.getElementById('testimonials-grid');
+            try {
+                const response = await fetch(`${API_URL}/api/testimonials`); 
+                const testimonials = await response.json();
+                container.innerHTML = "";
+
+                if (testimonials.length === 0) {
+                    container.innerHTML = "<p style='width:100%; text-align:center; color:#ccc;'>No testimonials added yet.</p>";
+                    return;
+                }
+
+                // Show only the latest 3 to keep the grid balanced
+                const latestTestimonials = testimonials.slice(0, 3);
+
+                latestTestimonials.forEach(t => {
+                    const card = document.createElement('div');
+                    card.style.background = "white";
+                    card.style.padding = "25px 20px";
+                    card.style.borderRadius = "10px";
+                    card.style.textAlign = "center";
+                    card.style.boxShadow = "0 5px 15px rgba(0,0,0,0.2)";
+                    
+                    card.innerHTML = `
+                        <div style="font-size: 2.5rem; color: #800000; margin-bottom: 5px; line-height: 1;">"</div>
+                        <p style="font-style: italic; color: #333; margin-bottom: 20px; font-size: 0.95rem; line-height: 1.6;">${t.quote}</p>
+                        <h4 style="color: #003366; margin-bottom: 2px;">${t.name}</h4>
+                        <p style="font-size: 0.8rem; color: #888; font-weight: bold;">${t.title}</p>
+                    `;
+                    container.appendChild(card);
+                });
+            } catch (error) { 
+                console.log("Testimonial Error", error); 
+                container.innerHTML = "<p style='width:100%; text-align:center; color:#ccc;'>Could not load success stories.</p>";
+            }
+        }
+
+        // 6. MENU TOGGLE
         function toggleMenu() {
             const nav = document.getElementById('navLinks');
             nav.classList.toggle('active');
         }
 
-        // 6. SUBSCRIBE FUNCTION (FOOTER)
+        // 7. SUBSCRIBE FUNCTION (FOOTER)
         async function subscribeUser() {
             const emailInput = document.getElementById('sub-email');
             const msgBox = document.getElementById('sub-msg');
@@ -520,14 +542,13 @@
                 const result = await response.json();
 
                 if (response.ok) {
-                    msgBox.style.color = "#4CAF50"; // Green
+                    msgBox.style.color = "#4CAF50"; 
                     msgBox.innerText = "Welcome to the family!";
-                    emailInput.value = ""; // Clear box
+                    emailInput.value = ""; 
                 } else {
                     msgBox.style.color = "orange";
                     msgBox.innerText = result.message;
                 }
-
             } catch (error) {
                 console.log(error);
                 msgBox.style.color = "red";
@@ -535,24 +556,18 @@
             }
         }
 
-        // 7. POPUP LOGIC
-        
-        // Show Popup (Wait 5 seconds)
+        // 8. POPUP LOGIC
         setTimeout(() => {
-            // Check if user has already seen it this session
             if (!sessionStorage.getItem('newsletterSeen')) {
                 document.getElementById('newsletter-popup').style.display = 'flex';
             }
         }, 5000);
 
-        // Close Popup
         function closePopup() {
             document.getElementById('newsletter-popup').style.display = 'none';
-            // Mark as seen so it doesn't show again until browser restart
             sessionStorage.setItem('newsletterSeen', 'true');
         }
 
-        // Subscribe from Popup (Separate function to target specific input)
         async function subscribeFromPopup() {
             const emailInput = document.getElementById('popup-email');
             const msgBox = document.getElementById('popup-msg');
@@ -563,7 +578,6 @@
                 msgBox.innerText = "Please enter a valid email.";
                 return;
             }
-
             msgBox.innerText = "Processing...";
 
             try {
@@ -574,13 +588,12 @@
                     method: 'POST',
                     body: formData
                 });
-
                 const result = await response.json();
 
                 if (response.ok) {
                     msgBox.style.color = "green";
                     msgBox.innerText = "Success! Closing...";
-                    setTimeout(closePopup, 2000); // Close automatically on success
+                    setTimeout(closePopup, 2000); 
                 } else {
                     msgBox.style.color = "orange";
                     msgBox.innerText = result.message;
@@ -596,6 +609,7 @@
         startDrRotator();
         loadLatestNews(); 
         loadYouTubeVideos();
+        loadTestimonials(); // <-- Added the new function here!
     </script>
 </body>
 </html>
