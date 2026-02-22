@@ -556,18 +556,25 @@
             }
         }
 
-        // 8. POPUP LOGIC
+        // 7. POPUP LOGIC
+        
+        // Show Popup (Wait 5 seconds)
         setTimeout(() => {
-            if (!sessionStorage.getItem('newsletterSeen')) {
+            // Check if they are already subscribed (Long-Term) 
+            // AND check if they already closed it today (Short-Term)
+            if (!localStorage.getItem('newsletterSubscribed') && !sessionStorage.getItem('newsletterClosed')) {
                 document.getElementById('newsletter-popup').style.display = 'flex';
             }
         }, 5000);
 
+        // Close Popup (When they click the X)
         function closePopup() {
             document.getElementById('newsletter-popup').style.display = 'none';
-            sessionStorage.setItem('newsletterSeen', 'true');
+            // Short-Term Memory: Just remember they closed it for this visit
+            sessionStorage.setItem('newsletterClosed', 'true');
         }
 
+        // Subscribe from Popup
         async function subscribeFromPopup() {
             const emailInput = document.getElementById('popup-email');
             const msgBox = document.getElementById('popup-msg');
@@ -578,6 +585,7 @@
                 msgBox.innerText = "Please enter a valid email.";
                 return;
             }
+
             msgBox.innerText = "Processing...";
 
             try {
@@ -588,12 +596,20 @@
                     method: 'POST',
                     body: formData
                 });
+
                 const result = await response.json();
 
                 if (response.ok) {
                     msgBox.style.color = "green";
                     msgBox.innerText = "Success! Closing...";
-                    setTimeout(closePopup, 2000); 
+                    
+                    // Long-Term Memory: They subscribed! Hide it forever.
+                    localStorage.setItem('newsletterSubscribed', 'true');
+                    
+                    // Close the popup after a short delay
+                    setTimeout(() => {
+                        document.getElementById('newsletter-popup').style.display = 'none';
+                    }, 2000); 
                 } else {
                     msgBox.style.color = "orange";
                     msgBox.innerText = result.message;
