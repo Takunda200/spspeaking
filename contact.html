@@ -67,6 +67,29 @@
         
         /* FIX FOR BLENDING TEXT */
         .form-group label { color: #333; font-weight: bold; margin-bottom: 5px; display: block; }
+
+        /* --- THE MOBILE FIX (Makes everything stack neatly on phones) --- */
+        .responsive-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr; /* 2 columns on big screens */
+            gap: 40px;
+            color: #333;
+        }
+
+        /* When the screen is smaller than 768 pixels (like an iPad or phone) */
+        @media (max-width: 768px) {
+            .responsive-grid {
+                grid-template-columns: 1fr; /* Stack into 1 single column */
+                gap: 30px; /* Give it some breathing room */
+            }
+            .contact-info-box {
+                padding: 20px !important; /* Slightly smaller padding for tiny screens */
+            }
+            #hero {
+                height: 40vh !important; /* Make the top picture a little shorter on mobile */
+            }
+        }
+        /* ----------------------------------------------------------------- */
     </style>
 </head>
 <body>
@@ -119,7 +142,7 @@
 
     <section class="section">
         <div class="container">
-            <div class="contact-wrapper" style="display: grid; grid-template-columns: 1fr 1fr; gap: 40px; color: #333;">
+            <div class="contact-wrapper responsive-grid">
                 
                 <div>
                     <h2 style="color: #003366;">Send a Message</h2>
